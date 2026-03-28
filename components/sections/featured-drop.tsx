@@ -25,9 +25,9 @@ export function FeaturedDrop() {
           {/* Featured Ribbon */}
           <motion.div
             initial={{ opacity: 0, rotate: 45 }}
-            whileInView={{ opacity: 1, rotate: 45 }}
+            whileInView={{ opacity: 1, rotate: -5 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="absolute -top-8 -right-8 w-32 h-32 bg-[#e85d26] text-white font-syne font-bold text-sm flex items-center justify-center transform rotate-45 shadow-lg"
+            className="absolute -top-9 -right-8 w-31 h-31 bg-[#e85d26] text-white font-syne font-bold text-sm flex items-center justify-center transform rotate-45 shadow-lg"
           >
             FEATURED
           </motion.div>

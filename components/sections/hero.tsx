@@ -12,7 +12,7 @@ export function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCycleIndex((prev) => (prev + 1) % textCycle.length)
-    }, 3000)
+    }, 1500)
     return () => clearInterval(interval)
   }, [])
 

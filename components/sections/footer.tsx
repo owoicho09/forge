@@ -21,7 +21,7 @@ export function Footer() {
               {BRAND_NAME}
               <span className="text-[#e85d26]">.</span>
             </div>
-            <p className="text-slate-400 text-sm">Premium AI tools and custom builds for developers.</p>
+            <p className="text-slate-400 text-sm">Premium AI tools and custom builds.</p>
           </motion.div>
 
           {/* Right - Links */}

@@ -21,7 +21,7 @@ export const products: Product[] = [
   {
     id: '1',
     name: 'Coach AI Assistant',
-    category: 'ready',
+    category: 'custom',
     emoji: '🤖',
     description: 'Ai mentor trained on your content and methodology that guides your students 24/7 through your programs.',
     price: 1500,
@@ -58,7 +58,7 @@ export const products: Product[] = [
     description: 'Custom-built AI agent for document review, legal research, and case analysis.',
     price: 3000,
     priceLabel: 'From $3,000',
-    telegramDemoLink: 'https://t.me/yourforgeai',
+    telegramDemoLink: 'https://t.me/c/3763523456/4',
     forgeScore: {
       revenuePotential: 95,
       deployTime: 60,

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Product } from '@/lib/products'
-
+import { WHATSAPP_URL } from '@/lib/constants'
 interface ProductCardProps {
   product: Product
   index?: number
@@ -56,7 +56,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         <div className="space-y-2 mb-4">
           <div>
             <div className="flex justify-between text-xs font-medium text-slate-700 mb-1">
-              <span>Revenue</span>
+              <span>Revenue Potential </span>
               <span>{product.forgeScore.revenuePotential}%</span>
             </div>
             <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
@@ -69,7 +69,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
           <div>
             <div className="flex justify-between text-xs font-medium text-slate-700 mb-1">
-              <span>Deploy Speed</span>
+              <span>Delivery Speed</span>
               <span>{product.forgeScore.deployTime}%</span>
             </div>
             <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
@@ -80,18 +80,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             </div>
           </div>
 
-          <div>
-            <div className="flex justify-between text-xs font-medium text-slate-700 mb-1">
-              <span>Complexity</span>
-              <span>{product.forgeScore.complexity}%</span>
-            </div>
-            <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-[#d4af37] to-yellow-400"
-                style={{ width: `${product.forgeScore.complexity}%` }}
-              />
-            </div>
-          </div>
+
         </div>
 
         {/* Price */}
@@ -99,9 +88,12 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
         {/* Buttons */}
         <div className="flex gap-3">
-          <button className="flex-1 bg-[#1a1714] text-white font-medium py-2 px-3 rounded-lg hover:bg-slate-800 transition-colors text-sm">
-            Order Now
-          </button>
+          <button
+              onClick={() => window.open(WHATSAPP_URL, "_blank")}
+              className="flex-1 bg-[#1a1714] text-white font-medium py-2 px-3 rounded-lg hover:bg-slate-800 transition-colors text-sm"
+            >
+              Order Now
+            </button>
           <a
             href={product.telegramDemoLink}
             target="_blank"

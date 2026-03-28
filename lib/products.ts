@@ -56,9 +56,9 @@ export const products: Product[] = [
     category: 'custom',
     emoji: '⚖️',
     description: 'Custom-built AI agent for document review, legal research, and case analysis.',
-    price: 3000,
-    priceLabel: 'From $3,000',
-    telegramDemoLink: 'https://t.me/c/3763523456/4',
+    price: 1500,
+    priceLabel: 'From $1,500',
+    telegramDemoLink: 'https://t.me/yourforgeai/4',
     forgeScore: {
       revenuePotential: 95,
       deployTime: 60,
@@ -104,8 +104,8 @@ export const products: Product[] = [
     category: 'custom',
     emoji: '📧',
     description: 'Custom automation framework for targeted email campaigns with AI personalization.',
-    price: 1200,
-    priceLabel: 'From $1,200',
+    price: 500,
+    priceLabel: 'From $500',
     telegramDemoLink: 'https://t.me/yourforgeai',
     forgeScore: {
       revenuePotential: 80,

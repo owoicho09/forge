@@ -18,23 +18,7 @@ export const metadata: Metadata = {
     description: 'Premium AI tools, custom builds, and innovative ideas for developers.',
     type: 'website',
   },
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
+  
 }
 
 export const viewport: Viewport = {

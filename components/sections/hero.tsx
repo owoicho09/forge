@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { TELEGRAM_URL, WHATSAPP_URL, BRAND_TAGLINE } from '@/lib/constants'
 import { useEffect, useState } from 'react'
 
-const textCycle = ['AI Agents.', 'Bots.', 'Web Apps.', 'Ideas.']
+const textCycle = ['AI Agents.', 'Bots.', 'Web Apps.', 'Automation.', 'Ideas.']
 
 export function Hero() {
   const [cycleIndex, setCycleIndex] = useState(0)
@@ -30,12 +30,13 @@ export function Hero() {
       style={{
         background: `
           radial-gradient(circle at 80% 0%, rgba(232, 93, 38, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 20% 100%, rgba(232, 93, 38, 0.04) 0%, transparent 50%),
           linear-gradient(to bottom, #ffffff, #fafaf9)
         `,
       }}
     >
-      {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -48,7 +49,9 @@ export function Hero() {
             transition={{ duration: 2, repeat: Infinity }}
             className="w-2 h-2 rounded-full bg-[#e85d26]"
           />
-          <span className="text-xs font-medium text-slate-700 uppercase tracking-wide">Now Open</span>
+          <span className="text-xs font-medium text-slate-700 uppercase tracking-wide">
+            Now taking orders
+          </span>
         </motion.div>
 
         {/* Main Heading */}
@@ -56,9 +59,10 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="font-syne font-bold text-4xl sm:text-5xl lg:text-6xl text-[#1a1714] mb-6 leading-tight"
+          className="font-syne font-extrabold text-4xl sm:text-5xl lg:text-7xl text-[#1a1714] mb-4 leading-none tracking-tight"
         >
-          Build. <span className="text-[#e85d26]">Buy.</span> Deploy.
+          Tell me what you need.<br />
+          <span className="text-[#e85d26] italic">I'll build it.</span>
         </motion.h1>
 
         {/* Cycling Text */}
@@ -66,15 +70,15 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="h-12 sm:h-14 mb-8 flex items-center justify-center"
+          className="h-10 sm:h-12 mb-6 flex items-center justify-center"
         >
           <motion.p
             key={cycleIndex}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.5 }}
-            className="font-syne font-bold text-2xl sm:text-3xl text-[#e85d26]"
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.4 }}
+            className="font-syne font-bold text-xl sm:text-2xl text-slate-400"
           >
             {textCycle[cycleIndex]}
           </motion.p>
@@ -85,13 +89,13 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-12 leading-relaxed"
+          className="text-base sm:text-lg text-slate-500 max-w-xl mx-auto mb-10 leading-relaxed font-light"
         >
-          Discover premium AI tools, custom builds, and innovative ideas. Every product is crafted with precision,
-          designed for developers, and ready to scale.
+          Forge is a catalog of AI tools, automation systems, custom software builds,
+          and ideas worth executing. Browse what's available or place a custom order.
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* Single CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -99,24 +103,45 @@ export function Hero() {
           className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
         >
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.04, backgroundColor: '#e85d26' }}
+            whileTap={{ scale: 0.96 }}
             onClick={() => scrollToSection('store')}
-            className="px-8 py-3 bg-[#1a1714] text-white font-medium rounded-lg hover:bg-slate-800 transition-colors"
+            className="px-10 py-4 bg-[#1a1714] text-white font-semibold rounded-lg transition-colors text-sm tracking-wide uppercase"
           >
-            Browse Store
+            Browse the Store
           </motion.button>
           <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href={TELEGRAM_URL}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-3 border-2 border-[#1a1714] text-[#1a1714] font-medium rounded-lg hover:bg-slate-50 transition-colors inline-flex items-center justify-center gap-2"
+            className="px-10 py-4 border-2 border-slate-200 text-slate-600 font-medium rounded-lg hover:border-slate-400 transition-colors inline-flex items-center justify-center gap-2 text-sm tracking-wide uppercase"
           >
-            Join Telegram <span>→</span>
+            Custom Order →
           </motion.a>
         </motion.div>
+
+        {/* Trust strip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1 }}
+          className="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 uppercase tracking-widest"
+        >
+          <span>AI Agents</span>
+          <span className="w-1 h-1 rounded-full bg-slate-300" />
+          <span>Telegram Bots</span>
+          <span className="w-1 h-1 rounded-full bg-slate-300" />
+          <span>Web Apps</span>
+          <span className="w-1 h-1 rounded-full bg-slate-300" />
+          <span>Automation</span>
+          <span className="w-1 h-1 rounded-full bg-slate-300" />
+          <span>Custom Builds</span>
+          <span className="w-1 h-1 rounded-full bg-slate-300" />
+          <span>Ideas for Sale</span>
+        </motion.div>
+
       </div>
     </section>
   )

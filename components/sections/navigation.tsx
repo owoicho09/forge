@@ -52,16 +52,7 @@ export function Navigation() {
           </div>
 
           {/* CTA Button */}
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href={TELEGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-2 bg-[#0088cc] text-white font-medium text-sm rounded-lg hover:bg-[#0077b5] transition-colors"
-          >
-            Join Telegram
-          </motion.a>
+
         </div>
       </div>
     </motion.nav>

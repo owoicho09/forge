@@ -3,106 +3,107 @@
 import { motion } from 'framer-motion'
 import { Product } from '@/lib/products'
 import { WHATSAPP_URL } from '@/lib/constants'
+import { Check } from 'lucide-react'
+
 interface ProductCardProps {
   product: Product
   index?: number
 }
 
-export function ProductCard({ product, index = 0 }: ProductCardProps) {
-  const borderColorMap = {
-    accent: 'border-t-[#e85d26]',
-    blue: 'border-t-[#3b82f6]',
-    gold: 'border-t-[#d4af37]',
-  }
+const categoryStyles = {
+  ready: {
+    pill: 'bg-orange-50 text-[#e85d26] border border-orange-100',
+    iconBg: 'from-orange-50 to-orange-100',
+    iconColor: '#e85d26',
+    border: 'border-t-[#e85d26]',
+    label: 'Ready to Buy',
+  },
+  custom: {
+    pill: 'bg-blue-50 text-[#2979ff] border border-blue-100',
+    iconBg: 'from-blue-50 to-blue-100',
+    iconColor: '#2979ff',
+    border: 'border-t-[#2979ff]',
+    label: 'Custom Build',
+  },
+  idea: {
+    pill: 'bg-yellow-50 text-[#d4a017] border border-yellow-100',
+    iconBg: 'from-yellow-50 to-yellow-100',
+    iconColor: '#d4a017',
+    border: 'border-t-[#d4a017]',
+    label: 'Idea for Sale',
+  },
+}
 
-  const categoryLabels = {
-    ready: 'Ready to Buy',
-    custom: 'Custom Builds',
-    idea: 'Ideas for Sale',
-  }
+export function ProductCard({ product, index = 0 }: ProductCardProps) {
+  const style = categoryStyles[product.category]
+
+  const whatsappMessage = encodeURIComponent(
+    `Hi, I'm interested in ${product.name} — can you share more details?`
+  )
+  const whatsappLink = `${WHATSAPP_URL}?text=${whatsappMessage}`
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
       viewport={{ once: true, margin: '-50px' }}
-      whileHover={{ y: -8 }}
-      className={`group bg-white border-t-4 ${borderColorMap[product.borderColor]} rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow`}
+      whileHover={{ y: -4, boxShadow: '0 12px 40px rgba(0,0,0,0.08)' }}
+      className={`group bg-white border border-[#eaedf2] border-t-4 ${style.border} rounded-xl overflow-hidden transition-all`}
     >
       {/* Thumbnail */}
-      <div className="h-40 bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center text-5xl">
-        {product.emoji}
+      <div
+        className={`h-36 bg-gradient-to-br ${style.iconBg} flex items-center justify-center`}
+      >
+        {product.icon && (
+          <product.icon
+            size={40}
+            color={style.iconColor}
+            strokeWidth={1.5}
+          />
+        )}
       </div>
 
       {/* Content */}
       <div className="p-5">
-        {/* Category Pill */}
-        <div className="inline-block px-3 py-1 bg-slate-100 rounded-full text-xs font-medium text-slate-700 mb-3">
-          {categoryLabels[product.category]}
-        </div>
+
+        {/* Category pill */}
+        <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 ${style.pill}`}>
+          {style.label}
+        </span>
 
         {/* Name */}
-        <h3 className="font-syne font-bold text-lg text-[#1a1714] mb-2 line-clamp-2">
+        <h3 className="font-syne font-bold text-base text-[#1a1714] mb-3 leading-snug">
           {product.name}
         </h3>
 
-        {/* Description */}
-        <p className="text-sm text-slate-600 mb-4 line-clamp-2">
-          {product.description}
-        </p>
-
-        {/* Forge Score */}
-        <div className="space-y-2 mb-4">
-          <div>
-            <div className="flex justify-between text-xs font-medium text-slate-700 mb-1">
-              <span>Revenue Potential </span>
-              <span>{product.forgeScore.revenuePotential}%</span>
-            </div>
-            <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-[#e85d26] to-orange-400"
-                style={{ width: `${product.forgeScore.revenuePotential}%` }}
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex justify-between text-xs font-medium text-slate-700 mb-1">
-              <span>Delivery Speed</span>
-              <span>{product.forgeScore.deployTime}%</span>
-            </div>
-            <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-[#3b82f6] to-blue-400"
-                style={{ width: `${product.forgeScore.deployTime}%` }}
-              />
-            </div>
-          </div>
-
-
-        </div>
+        {/* Benefits */}
+        <ul className="space-y-2 mb-4">
+          {product.benefits.map((benefit, i) => (
+            <li key={i} className="flex items-start gap-2 text-xs text-slate-500 leading-relaxed">
+              <Check size={12} className="mt-0.5 flex-shrink-0 text-[#e85d26]" />
+              <span>{benefit}</span>
+            </li>
+          ))}
+        </ul>
 
         {/* Price */}
-        <p className="font-syne font-bold text-lg text-[#1a1714] mb-4">{product.priceLabel}</p>
+        <p className="font-syne font-extrabold text-xl text-[#1a1714] mb-4">
+          {product.priceLabel}
+        </p>
 
-        {/* Buttons */}
-        <div className="flex gap-3">
-          <button
-              onClick={() => window.open(WHATSAPP_URL, "_blank")}
-              className="flex-1 bg-[#1a1714] text-white font-medium py-2 px-3 rounded-lg hover:bg-slate-800 transition-colors text-sm"
-            >
-              Order Now
-            </button>
-          <a
-            href={product.telegramDemoLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 border border-[#1a1714] text-[#1a1714] font-medium py-2 px-3 rounded-lg hover:bg-slate-50 transition-colors text-sm"
-          >
-            View Demo
-          </a>
-        </div>
+        {/* CTA */}
+        <motion.a
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full bg-[#1a1714] text-white text-center font-medium py-2.5 rounded-lg hover:bg-[#e85d26] transition-colors text-sm"
+        >
+          Order on WhatsApp
+        </motion.a>
+
       </div>
     </motion.div>
   )

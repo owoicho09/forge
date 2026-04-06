@@ -44,9 +44,10 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
+      transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.3) }}
       viewport={{ once: true, margin: '-50px' }}
       whileHover={{ y: -4, boxShadow: '0 12px 40px rgba(0,0,0,0.08)' }}
       className={`group bg-white border border-[#eaedf2] border-t-4 ${style.border} rounded-xl overflow-hidden transition-all`}

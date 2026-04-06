@@ -26,7 +26,7 @@ export function TelegramBanner() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-10 py-4 bg-[#0088cc] text-white font-semibold text-lg rounded-lg hover:bg-[#0077b5] transition-colors shadow-lg hover:shadow-xl"
           >
-            <span>📢</span>
+            <span></span>
             Join Telegram Channel
           </motion.a>
         </motion.div>

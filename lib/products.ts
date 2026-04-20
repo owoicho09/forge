@@ -62,7 +62,7 @@ export const products: Product[] = [
     ],
     price: 800,
     priceLabel: '$800',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'r2',
@@ -77,7 +77,7 @@ export const products: Product[] = [
     ],
     price: 500,
     priceLabel: '$500',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'r3',
@@ -92,7 +92,7 @@ export const products: Product[] = [
     ],
     price: 500,
     priceLabel: '$500',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'r4',
@@ -107,7 +107,7 @@ export const products: Product[] = [
     ],
     price: 300,
     priceLabel: '₦100,000',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'r5',
@@ -122,7 +122,7 @@ export const products: Product[] = [
     ],
     price: 600,
     priceLabel: '$600',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'r6',
@@ -137,7 +137,7 @@ export const products: Product[] = [
     ],
     price: 400,
     priceLabel: '$400',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'r7',
@@ -152,7 +152,7 @@ export const products: Product[] = [
     ],
     price: 250,
     priceLabel: '$250',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'r8',
@@ -167,7 +167,7 @@ export const products: Product[] = [
     ],
     price: 700,
     priceLabel: '$700',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'r9',
@@ -182,7 +182,7 @@ export const products: Product[] = [
     ],
     price: 200,
     priceLabel: '$200',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'r10',
@@ -197,7 +197,7 @@ export const products: Product[] = [
     ],
     price: 350,
     priceLabel: '$350',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
 
   // ══════════════════════════════
@@ -217,7 +217,7 @@ export const products: Product[] = [
     ],
     price: 1500,
     priceLabel: 'From $1,500',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'c2',
@@ -232,7 +232,7 @@ export const products: Product[] = [
     ],
     price: 3000,
     priceLabel: 'From $3,000',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'c3',
@@ -247,7 +247,7 @@ export const products: Product[] = [
     ],
     price: 4000,
     priceLabel: 'From $4,000',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'c4',
@@ -262,7 +262,7 @@ export const products: Product[] = [
     ],
     price: 2500,
     priceLabel: 'From $2,500',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'c5',
@@ -277,7 +277,7 @@ export const products: Product[] = [
     ],
     price: 2000,
     priceLabel: 'From $2,000',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'c6',
@@ -292,7 +292,7 @@ export const products: Product[] = [
     ],
     price: 2500,
     priceLabel: 'From $2,500',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'c7',
@@ -307,7 +307,7 @@ export const products: Product[] = [
     ],
     price: 2000,
     priceLabel: 'From $2,000',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'c8',
@@ -322,7 +322,7 @@ export const products: Product[] = [
     ],
     price: 3500,
     priceLabel: 'From $3,500',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'c9',
@@ -337,7 +337,7 @@ export const products: Product[] = [
     ],
     price: 3000,
     priceLabel: 'From $3,000',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'c10',
@@ -347,12 +347,12 @@ export const products: Product[] = [
     niche: 'Education',
     benefits: [
       'Handles parent enquiries about fees, timetables, events and report cards automatically via WhatsApp',
-      'Sends automated reminders for fee payments, PTA meetings and school events to all parents at once',
+      'Sends automated reminders for fee payments,outstanding, PTA meetings and school events to all parents at once',
       'Reduces administrative workload so school staff focus on education not answering repetitive messages',
     ],
     price: 2000,
     priceLabel: 'From $2,000',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
 
   // ══════════════════════════════
@@ -372,7 +372,7 @@ export const products: Product[] = [
     ],
     price: 650,
     priceLabel: '$650',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'i2',
@@ -387,7 +387,7 @@ export const products: Product[] = [
     ],
     price: 800,
     priceLabel: '$800',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'i3',
@@ -402,7 +402,7 @@ export const products: Product[] = [
     ],
     price: 500,
     priceLabel: '$500',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'i4',
@@ -417,7 +417,7 @@ export const products: Product[] = [
     ],
     price: 500,
     priceLabel: '$500',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'i5',
@@ -432,7 +432,7 @@ export const products: Product[] = [
     ],
     price: 600,
     priceLabel: '$600',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'i6',
@@ -447,7 +447,7 @@ export const products: Product[] = [
     ],
     price: 550,
     priceLabel: '$550',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'i7',
@@ -462,7 +462,7 @@ export const products: Product[] = [
     ],
     price: 500,
     priceLabel: '$500',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'i8',
@@ -477,7 +477,7 @@ export const products: Product[] = [
     ],
     price: 500,
     priceLabel: '$500',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'i9',
@@ -492,7 +492,7 @@ export const products: Product[] = [
     ],
     price: 600,
     priceLabel: '$600',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
   {
     id: 'i10',
@@ -507,7 +507,7 @@ export const products: Product[] = [
     ],
     price: 450,
     priceLabel: '$450',
-    telegramDemoLink: 'https://t.me/forgebuilds',
+    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
 
   // ══════════════════════════════
@@ -516,7 +516,7 @@ export const products: Product[] = [
 
 {
   id: 'r11',
-  name: 'WhatsApp Broadcast Marketing Tool',
+  name: 'WhatsApp Marketing Tool',
   category: 'ready',
   icon: Megaphone,
   niche: 'Marketing & Sales',
@@ -527,7 +527,7 @@ export const products: Product[] = [
   ],
   price: 400,
   priceLabel: '$400',
-  telegramDemoLink: 'https://t.me/forgebuilds',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
 },
 {
   id: 'r12',
@@ -542,7 +542,7 @@ export const products: Product[] = [
   ],
   price: 350,
   priceLabel: '$350',
-  telegramDemoLink: 'https://t.me/forgebuilds',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
 },
 {
   id: 'r13',
@@ -557,7 +557,7 @@ export const products: Product[] = [
   ],
   price: 450,
   priceLabel: '$450',
-  telegramDemoLink: 'https://t.me/forgebuilds',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
 },
 
 // ══════════════════════════════
@@ -577,7 +577,7 @@ export const products: Product[] = [
   ],
   price: 2000,
   priceLabel: 'From $2,000',
-  telegramDemoLink: 'https://t.me/forgebuilds',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
 },
 {
   id: 'c12',
@@ -592,7 +592,7 @@ export const products: Product[] = [
   ],
   price: 2500,
   priceLabel: 'From $2,500',
-  telegramDemoLink: 'https://t.me/forgebuilds',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
 },
 {
   id: 'c13',
@@ -607,7 +607,7 @@ export const products: Product[] = [
   ],
   price: 1800,
   priceLabel: 'From $1,800',
-  telegramDemoLink: 'https://t.me/forgebuilds',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
 },
 
 // ══════════════════════════════
@@ -627,7 +627,7 @@ export const products: Product[] = [
   ],
   price: 600,
   priceLabel: '$600',
-  telegramDemoLink: 'https://t.me/forgebuilds',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
 },
 {
   id: 'i12',
@@ -642,7 +642,7 @@ export const products: Product[] = [
   ],
   price: 650,
   priceLabel: '$650',
-  telegramDemoLink: 'https://t.me/forgebuilds',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
 },
 {
   id: 'i13',
@@ -657,7 +657,7 @@ export const products: Product[] = [
   ],
   price: 800,
   priceLabel: '$800',
-  telegramDemoLink: 'https://t.me/forgebuilds',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
 },
 {
   id: 'i14',
@@ -672,7 +672,7 @@ export const products: Product[] = [
   ],
   price: 550,
   priceLabel: '$550',
-  telegramDemoLink: 'https://t.me/forgebuilds',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
 },
 ]
 

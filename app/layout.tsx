@@ -10,15 +10,35 @@ const _dmSans = DM_Sans({ subsets: ["latin"], variable: '--font-dm-sans', weight
 
 export const metadata: Metadata = {
   title: 'FORGE - Build. Buy. Deploy.',
-  description: 'Premium AI tools, custom builds, and innovative ideas. Discover production-ready solutions and custom builds crafted by a passionate Python and AI developer.',
+  description: 'Premium AI tools, custom builds, and innovative ideas. Discover production-ready solutions and custom systems crafted by a Python and AI developer.',
   generator: 'v0.app',
-  metadataBase: new URL('https://forge.example.com'),
+  metadataBase: new URL('https://forgebuilds.online'),
+
+  icons: {
+    icon: '/icon.jpg', // put in /public/icon.png
+  },
+
   openGraph: {
     title: 'FORGE - Build. Buy. Deploy.',
     description: 'Premium AI tools, custom builds, and innovative ideas for developers.',
+    url: 'https://forgebuilds.online',
+    siteName: 'FORGE',
     type: 'website',
+    images: [
+      {
+        url: '/icon.jpg', // put in /public/og-image.png
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
-  
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'FORGE - Build. Buy. Deploy.',
+    description: 'Premium AI tools, custom builds, and innovative ideas for developers.',
+    images: ['/icon.jpg'],
+  },
 }
 
 export const viewport: Viewport = {

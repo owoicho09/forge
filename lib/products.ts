@@ -204,21 +204,21 @@ export const products: Product[] = [
   // CUSTOM BUILDS — 10 products
   // ══════════════════════════════
 
-  {
-    id: 'c1',
-    name: 'Coach AI Assistant',
-    category: 'custom',
-    icon: GraduationCap,
-    niche: 'Online Coaching & Education',
-    benefits: [
-      'Trained on your exact frameworks, lessons and exercises so students get guidance in your voice 24/7',
-      'Handles repetitive student questions automatically so you stop answering the same things over and over',
-      'Integrated directly into your Circle, Skool or Kajabi community so students access it where they already are',
-    ],
-    price: 1500,
-    priceLabel: 'From $1,500',
-    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
-  },
+ {
+  id: 'c3',
+  name: 'Hiring Workflow System',
+  category: 'custom',
+  icon: GraduationCap,
+  niche: 'Recruitment Agencies & HR Firms',
+  benefits: [
+    'Gives your agency a careers page where candidates can apply for open roles directly from your website',
+    'Automatically moves applicants through your hiring journey from application confirmation to screening, assessment, interview, vetting and final shortlist',
+    'Helps your team manage every role, candidate and hiring stage from one place instead of scattered CVs, WhatsApp chats and Excel sheets',
+  ],
+  price: 300000,
+  priceLabel: 'From ₦300,000',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
+},
   {
     id: 'c2',
     name: 'AI Agent for Law Firms',
@@ -234,21 +234,21 @@ export const products: Product[] = [
     priceLabel: 'From $3,000',
     telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
   },
-  {
-    id: 'c3',
-    name: 'Hospital Patient Intake AI System',
-    category: 'custom',
-    icon: Stethoscope,
-    niche: 'Healthcare',
-    benefits: [
-      'Automates patient registration, symptom collection and appointment scheduling before the doctor is involved',
-      'Reduces front desk workload by handling routine patient queries and follow-up reminders automatically',
-      'Integrates with existing hospital management systems and delivers structured patient data to staff',
-    ],
-    price: 4000,
-    priceLabel: 'From $4,000',
-    telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
-  },
+{
+  id: 'c1',
+  name: 'Hospital Care Workflow AI System',
+  category: 'custom',
+  icon: Stethoscope,
+  niche: 'Healthcare',
+  benefits: [
+    'Turns virtual nursing sessions, patient observations and remote care interactions into structured clinical summaries',
+    'Generates handoff notes, follow-up tasks and escalation details so care teams know exactly what needs attention',
+    'Helps hospitals reduce documentation gaps, missed follow-ups and delays between patient alerts and staff action',
+  ],
+  price: 4000,
+  priceLabel: 'From $4,000',
+  telegramDemoLink: 'https://t.me/+9dDAfY_zT7k0MjFk',
+},
   {
     id: 'c4',
     name: 'Real Estate Lead Qualification Agent',

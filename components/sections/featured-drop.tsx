@@ -50,7 +50,7 @@ export function FeaturedDrop() {
           className="mb-8"
         >
           <p className="text-xs font-medium text-[#e85d26] uppercase tracking-widest mb-1">
-            Featured Drop
+            Featured
           </p>
           <h2 className="font-syne font-extrabold text-2xl sm:text-3xl text-[#1a1714]">
             Product of the week.
@@ -94,7 +94,7 @@ export function FeaturedDrop() {
                 </p>
 
                 {/* Name + inline icon on mobile */}
-                <div className="flex items-start gap-1 mb-0">
+                <div className="flex items-start gap-1F mb-0">
                   {/* Mobile only icon — hidden on md+ */}
 
                   <h3 className="font-syne font-extrabold text-2xl sm:text-3xl text-white leading-tight">
@@ -125,12 +125,7 @@ export function FeaturedDrop() {
 
               {/* Price */}
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-widest mb-1">
-                  Starting at
-                </p>
-                <p className="font-syne font-extrabold text-3xl text-white mb-6">
-                  {featured.priceLabel}
-                </p>
+
 
                 {/* CTAs */}
                 <div className="flex flex-col sm:flex-row gap-3">
@@ -144,16 +139,7 @@ export function FeaturedDrop() {
                   >
                     Order Now <ArrowRight size={14} />
                   </motion.a>
-                  <motion.a
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    href={featured.telegramDemoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 border border-slate-600 text-slate-300 font-medium py-3 px-6 rounded-lg text-sm text-center hover:border-slate-400 hover:text-white transition-colors"
-                  >
-                    View Demo
-                  </motion.a>
+
                 </div>
               </div>
             </motion.div>

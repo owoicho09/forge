@@ -88,10 +88,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           ))}
         </ul>
 
-        {/* Price */}
-        <p className="font-syne font-extrabold text-xl text-[#1a1714] mb-4">
-          {product.priceLabel}
-        </p>
+
 
         {/* CTA */}
         <motion.a

@@ -91,8 +91,8 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="text-base sm:text-lg text-slate-500 max-w-xl mx-auto mb-10 leading-relaxed font-light"
         >
-          Forge is a catalog of AI tools, automation systems, custom software builds,
-          and ideas worth executing. Browse what's available or place a custom order.
+          Hi i'm Michael and Forge is my catalog of AI tools, automation systems, custom software builds.
+          Browse what's available or place a custom order.
         </motion.p>
 
         {/* Single CTA */}
@@ -131,7 +131,7 @@ export function Hero() {
         >
           <span>AI Agents</span>
           <span className="w-1 h-1 rounded-full bg-slate-300" />
-          <span>Telegram Bots</span>
+          <span>Bots</span>
           <span className="w-1 h-1 rounded-full bg-slate-300" />
           <span>Web Apps</span>
           <span className="w-1 h-1 rounded-full bg-slate-300" />
@@ -139,7 +139,7 @@ export function Hero() {
           <span className="w-1 h-1 rounded-full bg-slate-300" />
           <span>Custom Builds</span>
           <span className="w-1 h-1 rounded-full bg-slate-300" />
-          <span>Ideas for Sale</span>
+          <span>B2B Solutions</span>
         </motion.div>
 
       </div>

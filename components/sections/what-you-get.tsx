@@ -22,7 +22,7 @@ const features = [
   },
   {
     icon: Lightbulb,
-    name: 'Ideas for Sale',
+    name: 'Projects',
     description:
       'Fully researched concepts with market analysis, feature specs, and execution plans. Buy the idea, own it entirely.',
     color: '#d4a017',
@@ -45,9 +45,7 @@ export function WhatYouGet() {
           <p className="text-xs font-medium text-[#e85d26] uppercase tracking-widest mb-3">
             How it works
           </p>
-          <h2 className="font-syne font-extrabold text-3xl sm:text-4xl text-[#1a1714] leading-tight">
-            Three ways to get<br />something built.
-          </h2>
+
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

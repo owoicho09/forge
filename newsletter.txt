@@ -1,0 +1,53 @@
+# Landing page — build brief
+
+Build a single-page landing site. One job: get the visitor to book a call. Nothing else on the page competes with that.
+
+## Who's coming to this page
+
+Cold traffic from paid ads. Coaches and founders who run a newsletter and sell a high-ticket offer. They don't know me. They have about eight seconds of patience and they're on a phone.
+
+That means: no long scroll, no feature lists, no "about me" section, no newsletter signup, no navigation menu that lets them wander off. Every element either builds belief or moves them to the button.
+
+## The idea the page is built on
+
+Most coaches have no idea how much of their email list never receives their emails. A big chunk lands in spam and they never find out — they just see soft numbers and assume the content underperformed.
+
+The way to make that land isn't to explain deliverability. It's to make them check their own spam folder. That's the hook: I found Grant Cardone sitting in my spam folder. Big names, real newsletters, people the reader actually follows — all quietly filtered out. If it happens to them, it's happening to the reader's list too.
+
+So the page opens with that claim and immediately shows the proof: a screenshot of my actual spam folder. Then it tells them to go look at theirs. When they do, they believe everything else on the page — and they book.
+
+## What the page needs to do, in order
+
+**Open with the spam claim and the screenshot.** The screenshot is the hero of this page. Give it real size and prominence, make it legible on mobile, treat it like evidence being presented rather than decoration. Right after it, push the reader to check their own spam folder — that action is what converts.
+
+**Put the first booking button here**, right under the hook, before any further explanation. Some people are sold in six seconds and should be able to act immediately.
+
+**Then the proof.** A short case: a coach sending 5,000 newsletters biweekly, more than 1,500 landing in spam, roughly a third of the list never seeing anything. They were booking 10–15 calls per cycle. After delivery was fixed — same content, same audience, same schedule — they added 5 more qualified calls. Keep this tight and let the numbers carry it. No fluff around it.
+
+**Then show that delivery is only stage one.** Briefly. Delivery is where most lists bleed first, but there's more after it: opens and clicks, filling the webinar, getting registrants to show up, qualifying who's serious, booking the call. Every stage leaks; most coaches only look at the last one. Keep this short and plain — a simple list, not a diagram or flow chart. It exists to widen the problem, not to explain a system.
+
+**Then what they get on the call.** This is what makes booking feel safe and worth it. They get their actual delivery rate checked, they find out what's landing in spam, they see where else their list is leaking and what it's costing per cycle — and they get that diagnosis whether or not we end up working together. Free, short, no pitch.
+
+**Close with the button again.**
+
+## The call to action
+
+Same action everywhere: book a call. Frame it as a free diagnosis, not a sales call — the visitor is booking to find out what's broken with their list, not to be sold to. Keep the wording consistent every time it appears, and put it in at least three places down the page so people can act whenever they're convinced.
+
+The calendar link lives in an env var. Read it from there, don't hardcode it.
+
+## Screenshot handling
+
+I'll drop the spam folder screenshot into the project myself. Set it up so it's a simple file swap — reference it from a sensible path in the public folder, and if it's missing, the layout should still hold rather than collapsing. Make sure it renders sharply and stays readable at mobile widths, since that image is doing most of the persuasion.
+
+## Look and feel
+
+ Clean, credible, and calm — this should feel like it's from someone who knows what they're doing, not a hyped-up marketing funnel. No dark mode, no gradients-everywhere, no stock photos, no fake testimonial badges, no countdown timers.
+
+The screenshot is the visual centerpiece; everything else should be typography and space doing the work. Strong type hierarchy so the page can be skimmed in a few seconds and still make sense. Mobile-first — most of the paid traffic will be on phones, so design for that width and let desktop be the easy case.
+
+Use your judgment on the specific type, spacing and color choices. Aim for something that reads as trustworthy and slightly premium rather than loud.
+
+## What done looks like
+
+A visitor lands, reads one line, sees a screenshot that makes them open their own spam folder, realizes they've been losing part of their list without knowing it, and books a call to find out how bad it is. Short enough that they reach the button before they lose interest.

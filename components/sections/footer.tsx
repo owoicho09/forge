@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { BRAND_NAME, TELEGRAM_URL, WHATSAPP_URL } from '@/lib/constants'
 
@@ -60,9 +61,17 @@ export function Footer() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true, margin: '-50px' }}
-          className="text-center text-slate-400 text-xs"
+          className="flex flex-col items-center gap-3 text-center text-slate-400 text-xs"
         >
           <p>&copy; {currentYear} {BRAND_NAME}. All rights reserved.</p>
+          <div className="flex gap-4">
+            <Link href="/terms" className="hover:text-[#e85d26] transition-colors">
+              Terms & Conditions
+            </Link>
+            <Link href="/privacy" className="hover:text-[#e85d26] transition-colors">
+              Privacy Policy
+            </Link>
+          </div>
         </motion.div>
       </div>
     </footer>

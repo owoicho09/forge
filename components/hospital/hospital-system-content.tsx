@@ -8,14 +8,10 @@ import {
   Stethoscope,
   FlaskConical,
   Pill,
-  Play,
   Check,
   ShieldCheck,
 } from 'lucide-react'
 import { BRAND_NAME, WHATSAPP_URL } from '@/lib/constants'
-
-// Paste the Loom "embed" URL here once it's ready, e.g. 'https://www.loom.com/embed/xxxxxxxxxxxx'
-const LOOM_EMBED_URL = ''
 
 const whatsappMessage = encodeURIComponent(
   "Saw the hospital system. I'd like to talk about building something similar for —"
@@ -97,21 +93,15 @@ export function HospitalSystemContent() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="relative mx-auto mt-8 aspect-video w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-100 shadow-sm"
           >
-            {LOOM_EMBED_URL ? (
-              <iframe
-                src={LOOM_EMBED_URL}
-                allow="fullscreen"
-                allowFullScreen
-                className="absolute inset-0 h-full w-full"
-              />
-            ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-slate-400">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-md">
-                  <Play size={22} className="ml-0.5 text-[#e85d26]" fill="#e85d26" />
-                </div>
-                <p className="text-xs font-medium uppercase tracking-widest">Demo video — Loom embed goes here</p>
-              </div>
-            )}
+            <video
+              controls
+              playsInline
+              preload="metadata"
+              poster="/hospital/demo-poster.jpg"
+              className="absolute inset-0 h-full w-full"
+            >
+              <source src="/hospital/demo.mp4" type="video/mp4" />
+            </video>
           </motion.div>
 
           {/* CTA 1 */}

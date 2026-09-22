@@ -1,0 +1,498 @@
+We need to build a focused landing page and registration system for the first ForgeBuilds AI workshop.
+
+IMPORTANT: READ THE EXISTING CODEBASE FIRST.
+
+Before making any changes:
+- Inspect the ForgeBuilds project structure and existing routes.
+- Inspect the current homepage, branding, typography, colors, components, and design conventions.
+- Inspect the existing database configuration and determine how the project currently handles environment variables.
+- Inspect any existing authentication or admin functionality that could be reused for the CRM.
+- Identify the framework, database tooling, and migration conventions already in use.
+
+Do not immediately start writing code based on assumptions.
+
+Use the existing architecture wherever practical. Preserve the existing ForgeBuilds website and its functionality.
+
+The goal is to implement the following idea thoughtfully, using the existing project as the foundation.
+
+==================================================
+1. PROJECT CONTEXT
+==================================================
+
+ForgeBuilds is my software and AI product brand.
+
+We are creating a dedicated landing page for the first free workshop.
+
+Page URL:
+ /workshops/telegrambot
+
+Workshop concept:
+Participants will learn how to build their own Telegram bot that helps them find job opportunities relevant to their skills and preferences.
+
+The bot connects to a job-search service powered by Search4Jobs.
+
+The page should focus on the workshop's value and the outcome participants will explore.
+
+Do not make the page overly technical.
+
+Do not turn it into a general ForgeBuilds homepage, a Search4Jobs landing page, or a paid-course sales page.
+
+This is a focused registration page for one specific free workshop.
+
+==================================================
+2. BRANDING AND DESIGN
+==================================================
+
+Maintain ForgeBuilds' existing branding.
+
+Inspect the codebase and reuse its:
+- Colors.
+- Typography.
+- Logo.
+- Button styles.
+- Design conventions.
+- Reusable components.
+
+Do not invent an unrelated visual identity.
+
+The page should feel like a polished, modern ForgeBuilds page while being focused on registration.
+
+Design principles:
+- Clear and conversion-focused.
+- Concise copy.
+- Strong visual hierarchy.
+- Minimal distractions.
+- Responsive desktop and mobile layouts.
+- Fast and easy to navigate.
+- No unnecessary animations or decorative sections.
+- No stock imagery unrelated to the workshop.
+
+The page should not feel excessively long.
+
+Visitors should be able to understand the workshop and reach the registration form quickly.
+
+==================================================
+3. LANDING PAGE STRUCTURE
+==================================================
+
+Build the page with the following structure.
+
+SECTION 1 — HERO
+
+Eyebrow:
+FREE AI WORKSHOP
+
+Headline:
+Build your own Telegram bot that finds jobs for you.
+
+Supporting copy:
+Join us to build your personal Telegram bot and explore how AI can help you discover job opportunities that match your skills and interests.
+
+Primary CTA:
+Join the free workshop
+
+IMPORTANT CTA BEHAVIOR:
+When clicked, this button must scroll directly to the registration form.
+
+It should skip the intervening sections rather than opening another page.
+
+Use a smooth scroll if appropriate, while respecting reduced-motion preferences.
+
+Small supporting line:
+Free to attend. Register to get access to the WhatsApp community.
+
+Keep the hero focused.
+
+Do not introduce technical explanations about APIs, databases, webhooks, or AI models.
+
+VISUAL:
+Create a clean visual showing the idea of a personal Telegram job-finding bot.
+
+It could show a Telegram-style conversation or a job opportunity card.
+
+Use existing assets if suitable. Otherwise create a restrained visual using the project's existing frontend tools and design conventions.
+
+Do not use fake testimonials, fabricated job listings presented as real, or unsupported employment claims.
+
+--------------------------------------------------
+SECTION 2 — WHAT YOU'LL EXPLORE
+--------------------------------------------------
+
+Heading:
+What you'll explore
+
+Show three compact cards:
+
+BUILD
+Learn how to create your own Telegram bot with the help of AI.
+
+AUTOMATE
+Explore how your bot can help you search for job opportunities and receive relevant matches.
+
+LAUNCH & MONETIZE
+Discover how to think beyond building and explore how useful digital solutions can create opportunities.
+
+Keep each description short.
+
+LAYOUT REQUIREMENT:
+On mobile, these three cards should NOT stack vertically into three large full-width sections.
+
+Use a compact horizontal layout on mobile:
+- Keep the cards side by side.
+- Allow horizontal scrolling if necessary.
+- Make it visually obvious that the row can be scrolled when cards extend beyond the viewport.
+- Keep cards compact, with controlled widths and heights.
+- Avoid forcing the page to become excessively long.
+
+On desktop, use a balanced three-column layout.
+
+The horizontal mobile layout should feel intentional, not like a broken desktop layout squeezed into a phone.
+
+--------------------------------------------------
+SECTION 3 — ABOUT MICHAEL
+--------------------------------------------------
+
+Heading:
+Build with Michael from ForgeBuilds
+
+Copy:
+I'm Michael, a Python and AI developer building software, automation systems, and AI-powered products.
+
+Through ForgeBuilds, I explore how AI can help turn ideas into useful digital solutions. In this workshop, I'll walk you through building your own Telegram bot and exploring how it can help with your job search.
+
+LAYOUT:
+Use a clean profile layout with:
+- Michael's photograph on one side.
+- The text beside it.
+- A responsive layout that works naturally on mobile.
+
+First inspect the project for an existing suitable photograph.
+
+Reuse it if available.
+
+If no suitable photograph exists, do not generate a fake photograph or use an unrelated person. Create a clean layout that can accommodate a real photograph when supplied.
+
+Keep this section short.
+
+--------------------------------------------------
+SECTION 4 — REGISTRATION FORM
+--------------------------------------------------
+
+This is the main conversion point.
+
+Give the form a clear heading:
+
+Get your free workshop access
+
+Supporting copy:
+Register below and get the WhatsApp community invite so you can receive workshop updates and joining instructions.
+
+FORM FIELDS:
+
+1. Name
+   - Text input.
+   - Required.
+
+2. Email address
+   - Email input.
+   - Required.
+   - Validate the email format.
+
+3. What are you most interested in learning?
+   - Required dropdown.
+   - Options:
+       Building websites and apps with AI
+       Building Telegram bots and AI agents
+       AI automation and workflows
+       Finding clients and selling digital services
+       Building and launching my own digital product
+       Using AI to improve my business
+
+4. How much experience do you have building with AI?
+   - Required dropdown.
+   - Options:
+       I'm completely new to it
+       I've experimented with AI tools
+       I've built a website or app with AI
+       I've built bots or automations
+       I've already launched a digital product
+
+Keep the form compact and easy to complete.
+
+Do not add:
+- WhatsApp number.
+- Income or budget questions.
+- Business name.
+- Long written responses.
+- Unnecessary fields.
+- Multi-step application flows.
+
+Use clear labels, helpful validation messages, and accessible form controls.
+
+Submit button:
+Register & Get WhatsApp Access
+
+--------------------------------------------------
+SECTION 5 — REGISTRATION SUCCESS AND WHATSAPP INVITE
+--------------------------------------------------
+
+When the visitor submits the form:
+
+1. Validate the submitted values on the server.
+2. Save the registration to the ForgeBuilds CRM database.
+3. Only show successful registration after the database write succeeds.
+4. Immediately display the WhatsApp community invite.
+
+Do not require email confirmation before displaying the invite.
+
+Do not make visitors wait for manual approval.
+
+SUCCESS STATE:
+
+Heading:
+You're registered!
+
+Copy:
+Thanks for signing up for the AI Job Finder Telegram Bot workshop.
+
+Join the WhatsApp community to receive workshop announcements, resources, and joining instructions.
+
+Button:
+Join the WhatsApp Community
+
+The button must use the WhatsApp invite URL supplied through the environment.
+
+Do not hardcode the invite URL.
+
+Display a useful error message if registration fails, and allow the visitor to try again without unnecessarily re-entering all their details.
+
+Track the WhatsApp invite button click separately from registration.
+
+IMPORTANT:
+A click on the invite link does not prove that someone actually joined the WhatsApp community.
+
+Record the click as an invite-click event or field. Do not mark the person as a confirmed community member based on the click alone.
+
+==================================================
+4. CRM AND DATABASE
+==================================================
+
+ForgeBuilds will use a SEPARATE Supabase project from Search4Jobs.
+
+I will provide the ForgeBuilds Supabase credentials through environment variables.
+
+Do not connect this CRM to the Search4Jobs database.
+
+Do not reuse Search4Jobs credentials.
+
+Inspect the existing ForgeBuilds project first and follow its database conventions.
+
+Create a simple CRM that stores only information useful for registration, audience segmentation, and funnel measurement.
+
+REQUIRED REGISTRATION DATA:
+
+- Registration ID.
+- Name.
+- Email address.
+- Interest selection.
+- Experience-level selection.
+- Workshop identifier.
+- Registration timestamp.
+- Acquisition source/UTM information when available.
+- WhatsApp invite-click status and timestamp.
+
+The workshop identifier should identify this specific workshop, for example:
+telegrambot
+
+Store the qualification answers as structured fields, not as an unstructured blob that cannot be filtered easily.
+
+The CRM must allow us to segment leads by:
+- Their selected interest.
+- Their experience level.
+- Their registration source, when available.
+- Their registration status.
+
+Avoid collecting or storing unnecessary personal information.
+
+Handle duplicate registrations thoughtfully.
+
+At minimum, prevent accidental duplicate submissions from creating duplicate records when the same request is retried.
+
+Inspect the current database before deciding how to handle duplicate email addresses. Prefer a sensible approach that preserves useful registration data without creating duplicate leads.
+
+==================================================
+5. CRM ADMIN VIEW
+==================================================
+
+Implement a simple, secure way for the authorized ForgeBuilds administrator to view workshop registrations.
+
+First inspect the existing project for an admin interface or authentication mechanism that can be reused.
+
+Do not expose registration records publicly.
+
+The admin view should display:
+- Name.
+- Email.
+- Interest.
+- Experience level.
+- Registration date.
+- Acquisition source, when available.
+- WhatsApp invite-click status.
+
+Provide useful filtering or segmentation by interest and experience level.
+
+Include a simple way to export registrations as CSV if it fits the existing architecture without adding unnecessary complexity.
+
+Do not build a large marketing automation platform.
+
+The goal is a lightweight CRM that helps us understand who is registering and where they came from.
+
+Use secure server-side access and appropriate authorization.
+
+Never expose Supabase service-role credentials or other privileged secrets to browser code.
+
+==================================================
+6. ATTRIBUTION
+==================================================
+
+The landing page will receive visitors from X ads and other sources.
+
+Preserve relevant attribution parameters when a visitor arrives.
+
+Support:
+- utm_source
+- utm_medium
+- utm_campaign
+- utm_content
+
+Store these values with the registration when present.
+
+Do not fabricate attribution values.
+
+If a parameter is absent, store it as null or use the existing project's established convention.
+
+Track these as separate events or statuses:
+
+1. Registration completed.
+2. WhatsApp invite clicked.
+
+Do not confuse invite clicks with confirmed WhatsApp membership.
+
+==================================================
+7. ENVIRONMENT VARIABLES
+==================================================
+
+Inspect the project's existing environment-variable conventions.
+
+Use the separate ForgeBuilds Supabase project.
+
+I will provide the actual credentials and invite link.
+
+Use appropriate environment variables for:
+- Supabase project URL.
+- Supabase publishable/anonymous key, if needed.
+- Supabase service-role/secret key for server-side operations, if required.
+- WhatsApp community invite URL.
+- Any required application URL or other configuration discovered during implementation.
+
+Use clear variable names consistent with the existing codebase.
+
+Create or update .env.example with blank placeholders and explanatory comments.
+
+Do not put real credentials in source code.
+
+Do not expose privileged credentials through NEXT_PUBLIC variables.
+
+Do not invent credentials or hardcode the WhatsApp invite.
+
+If a required variable is missing, show a clear server-side configuration error and document what needs to be supplied.
+
+==================================================
+8. DATABASE MIGRATIONS
+==================================================
+
+Create the necessary database schema and migrations using the project's existing migration conventions.
+
+Do not assume the database tables already exist.
+
+After implementation:
+- Run the migrations against the configured ForgeBuilds Supabase project when credentials are available.
+- Verify that the expected tables and constraints exist.
+- Verify that the registration flow can write to the database.
+- Verify that the CRM can retrieve registrations through authorized access.
+- Verify that qualification answers are stored correctly and can be filtered.
+
+If credentials or permissions prevent a live migration, report that clearly and provide the exact migration command and remaining step.
+
+Do not claim migrations were applied successfully unless they actually were.
+
+==================================================
+9. VALIDATION AND SECURITY
+==================================================
+
+Implement server-side validation.
+
+Protect against:
+- Invalid form submissions.
+- Duplicate submission retries.
+- Unauthorized access to CRM records.
+- Public exposure of private registration information.
+- Privileged secrets leaking to the frontend.
+- Basic registration endpoint abuse.
+
+Use the project's existing validation and security patterns where practical.
+
+Avoid introducing unnecessary dependencies.
+
+==================================================
+10. TESTING
+==================================================
+
+Test the complete registration flow.
+
+At minimum, verify:
+
+1. The landing page loads.
+2. The hero CTA scrolls directly to the form.
+3. The mobile BUILD → AUTOMATE → LAUNCH & MONETIZE cards remain horizontally arranged and do not become three large stacked sections.
+4. Required fields are validated.
+5. Invalid email addresses are rejected.
+6. A valid registration is saved to the database.
+7. The qualification answers are stored in the correct fields.
+8. UTM parameters are preserved and stored when supplied.
+9. Successful registration immediately displays the WhatsApp invite.
+10. The invite button opens the configured URL.
+11. Invite clicks are tracked separately from registrations.
+12. Duplicate retries do not create unintended duplicate records.
+13. Unauthorized visitors cannot access the CRM.
+14. Authorized administrators can view and filter registrations.
+15. The page remains usable on mobile and desktop.
+
+Run the project's appropriate checks, including:
+- Lint.
+- TypeScript checks, if applicable.
+- Production build.
+- Relevant automated tests.
+
+Fix issues introduced by the implementation.
+
+Do not claim a test passed unless it was actually run.
+
+==================================================
+11. FINAL IMPLEMENTATION REPORT
+==================================================
+
+When finished, report:
+
+- What was implemented.
+- Files and routes changed.
+- Database tables and migrations created.
+- Whether migrations were successfully applied to the live ForgeBuilds Supabase project.
+- Which tests and checks were run and their results.
+- Which environment variables still need values.
+- Any remaining manual steps.
+- Any limitations that prevent the registration flow from being fully tested.
+
+Do not modify unrelated ForgeBuilds functionality.
+
+The final result should be a short, focused, conversion-ready workshop landing page with a low-friction registration form, immediate WhatsApp access, and a lightweight CRM that gives us useful audience segmentation data.

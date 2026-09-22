@@ -1,5 +1,4 @@
 import { Suspense } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Bot, Rocket, Wrench } from 'lucide-react'
 import { BRAND_NAME } from '@/lib/constants'
@@ -74,38 +73,6 @@ export function TelegramBotWorkshopContent() {
                 <p className="mt-1 text-sm leading-snug text-slate-600">{card.description}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About Michael */}
-      <section className="py-10 sm:py-14">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <h2 className="text-center font-syne text-lg font-bold text-[#1a1714] sm:text-2xl">
-            Build with Michael from {BRAND_NAME}
-          </h2>
-
-          <div className="mt-6 flex flex-col items-center gap-5 sm:mt-8 sm:flex-row sm:items-start sm:gap-8">
-            <div className="relative aspect-square w-28 shrink-0 overflow-hidden rounded-2xl border border-slate-200 shadow-sm sm:w-48">
-              <Image
-                src="/workshops/telegrambot/michael.jpg"
-                alt="Michael, ForgeBuilds"
-                fill
-                sizes="192px"
-                className="object-cover"
-                priority={false}
-              />
-            </div>
-            <div className="text-center sm:text-left">
-              <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
-                I&apos;m Michael, a Python and AI developer building software, automation systems, and AI-powered
-                products.
-              </p>
-              <p className="mt-2.5 text-sm leading-relaxed text-slate-600 sm:mt-3 sm:text-base">
-                Through {BRAND_NAME}, I explore how AI can turn ideas into useful digital solutions. In this
-                workshop, I&apos;ll walk you through building your own Telegram bot for job discovery.
-              </p>
-            </div>
           </div>
         </div>
       </section>

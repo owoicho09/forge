@@ -93,9 +93,9 @@ export function RegistrationForm() {
 
   if (success) {
     return (
-      <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-        <CheckCircle2 className="mx-auto h-10 w-10 text-[#e85d26]" />
-        <h3 className="mt-4 font-syne text-xl font-bold text-[#1a1714]">You&apos;re registered!</h3>
+      <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm sm:p-8">
+        <CheckCircle2 className="mx-auto h-9 w-9 text-[#e85d26] sm:h-10 sm:w-10" />
+        <h3 className="mt-3 font-syne text-lg font-bold text-[#1a1714] sm:mt-4 sm:text-xl">You&apos;re registered!</h3>
         <p className="mt-2 text-sm leading-relaxed text-slate-600">
           Thanks for signing up for the AI Job Finder Telegram Bot workshop.
         </p>
@@ -107,7 +107,7 @@ export function RegistrationForm() {
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleWhatsAppClick}
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#25d366] px-6 py-3.5 font-semibold text-white shadow-md transition-colors hover:bg-[#20ba58] hover:shadow-lg active:scale-[0.98]"
+          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#25d366] px-4 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-[#20ba58] hover:shadow-lg active:scale-[0.98] sm:px-6 sm:py-3.5 sm:text-base"
         >
           Join the WhatsApp Community
         </a>
@@ -116,9 +116,9 @@ export function RegistrationForm() {
   }
 
   return (
-    <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5" noValidate>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <FormField
             control={form.control}
             name="name"
@@ -206,9 +206,9 @@ export function RegistrationForm() {
           <Button
             type="submit"
             disabled={submitState === 'submitting'}
-            className="w-full bg-[#e85d26] py-6 text-base font-semibold text-white hover:bg-[#d54f1c]"
+            className="h-auto w-full min-w-0 whitespace-normal break-words bg-[#e85d26] px-4 py-3 text-sm font-semibold leading-snug text-white hover:bg-[#d54f1c] sm:py-3.5 sm:text-base"
           >
-            {submitState === 'submitting' && <Loader2 className="h-4 w-4 animate-spin" />}
+            {submitState === 'submitting' && <Loader2 className="h-4 w-4 shrink-0 animate-spin" />}
             Register &amp; Get WhatsApp Access
           </Button>
         </form>

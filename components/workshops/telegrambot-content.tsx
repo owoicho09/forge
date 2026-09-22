@@ -39,7 +39,7 @@ export function TelegramBotWorkshopContent() {
       <section className="px-4 pt-8 pb-10 sm:px-6 sm:pt-14 sm:pb-14">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-[11px] font-bold uppercase tracking-widest text-[#e85d26] sm:text-xs">Free AI Workshop</p>
-          <h1 className="mt-3 text-balance font-syne text-[1.75rem] font-extrabold leading-[1.15] tracking-tight text-[#1a1714] sm:text-4xl md:text-5xl">
+          <h1 className="mt-3 text-balance font-dm-sans text-[1.75rem] font-bold leading-[1.2] tracking-normal text-[#1a1714] sm:text-4xl md:text-5xl">
             Build your own Telegram bot that finds jobs for you.
           </h1>
           <p className="mx-auto mt-3 max-w-md text-balance text-sm leading-relaxed text-slate-600 sm:mt-4 sm:max-w-xl sm:text-lg">

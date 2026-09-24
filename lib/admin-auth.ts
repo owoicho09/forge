@@ -53,3 +53,11 @@ export function checkAdminPassword(password: string): boolean {
   if (provided.length !== expectedBuffer.length) return false
   return crypto.timingSafeEqual(provided, expectedBuffer)
 }
+
+// Admin pages that the shared login/logout routes may redirect back to.
+const ADMIN_PAGE_PATHS = ['/workshops/telegrambot/admin', '/workshops/ai-automation/admin'] as const
+
+/** Returns `next` if it's a known admin page, otherwise the telegrambot admin (the original default). */
+export function resolveAdminRedirect(next: unknown): string {
+  return ADMIN_PAGE_PATHS.find((path) => path === next) ?? ADMIN_PAGE_PATHS[0]
+}

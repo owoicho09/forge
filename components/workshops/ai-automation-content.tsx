@@ -6,15 +6,6 @@ import { ScrollToRegisterButton } from '@/components/workshops/scroll-to-registe
 import { AiAutomationRegistrationForm } from '@/components/workshops/ai-automation-registration-form'
 import { WORKSHOP_TITLE, WORKSHOP_WHEN } from '@/lib/workshops/ai-automation'
 
-const topics = [
-  'What you can automate',
-  'Why it matters',
-  'Where AI fits in a business',
-  'How the systems work',
-  'What you could build',
-  'Live demo',
-]
-
 export function AiAutomationWorkshopContent() {
   return (
     <div className="min-h-screen bg-white">
@@ -37,21 +28,9 @@ export function AiAutomationWorkshopContent() {
             {WORKSHOP_TITLE}
           </h1>
           <p className="mx-auto mt-3 max-w-md text-balance text-sm leading-relaxed text-slate-600 sm:mt-4 sm:max-w-2xl sm:text-lg">
-            A practical session for business owners and anyone applying AI to real business processes. Learn which
-            parts of a business can be automated, where AI fits, how these systems actually work — then watch a
-            practical automation demonstrated live.
+            Learn which parts of your business can be automated, where AI fits, and how these systems actually
+            work.
           </p>
-
-          <ul className="mx-auto mt-5 flex max-w-2xl flex-wrap justify-center gap-2" aria-label="What the workshop covers">
-            {topics.map((topic) => (
-              <li
-                key={topic}
-                className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700"
-              >
-                {topic}
-              </li>
-            ))}
-          </ul>
 
           <p className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a1714] sm:text-base">
             <CalendarDays className="h-4 w-4 text-[#e85d26]" aria-hidden="true" />

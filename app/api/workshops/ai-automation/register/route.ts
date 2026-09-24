@@ -80,8 +80,6 @@ export async function POST(request: NextRequest) {
           industry,
           industry_other: industry === 'other' ? data.industryOther || null : null,
           business_description: data.businessDescription || null,
-          ai_goal: data.aiGoal,
-          ai_goal_other: data.aiGoal === 'other' ? data.aiGoalOther || null : null,
           ...attribution,
         },
         { onConflict: 'workshop_id,email_normalized' },

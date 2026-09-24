@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import {
   ACTIVITY_OPTIONS,
-  AI_GOAL_OPTIONS,
   BUSINESS_PERSONAS,
   INDUSTRY_OPTIONS,
   PERSONA_OPTIONS,
@@ -32,10 +31,6 @@ export const aiAutomationRegistrationSchema = z
     industry: z.enum(optionValues(INDUSTRY_OPTIONS)).nullish(),
     industryOther: optionalText(120, 'Keep this under 120 characters.'),
     businessDescription: optionalText(1000, 'Keep this under 1000 characters.'),
-    aiGoal: z.enum(optionValues(AI_GOAL_OPTIONS), {
-      message: 'Choose what you would most like AI to help with.',
-    }),
-    aiGoalOther: optionalText(200, 'Keep this under 200 characters.'),
     source: z.string().trim().max(200).nullish(),
     utmSource: z.string().trim().max(200).nullish(),
     utmMedium: z.string().trim().max(200).nullish(),
@@ -48,13 +43,6 @@ export const aiAutomationRegistrationSchema = z
     }
     if (data.industry === 'other' && !data.industryOther) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['industryOther'], message: 'Tell us your industry.' })
-    }
-    if (data.aiGoal === 'other' && !data.aiGoalOther) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['aiGoalOther'],
-        message: 'Tell us briefly what you would like AI to help with.',
-      })
     }
   })
 

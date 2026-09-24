@@ -3,7 +3,6 @@ import { hasValidAdminSession } from '@/lib/admin-auth'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import {
   ACTIVITY_OPTIONS,
-  AI_GOAL_OPTIONS,
   INDUSTRY_OPTIONS,
   PERSONA_OPTIONS,
   SOURCE_OPTIONS,
@@ -14,7 +13,6 @@ import {
 
 const FILTERS = [
   { param: 'persona', column: 'persona', options: PERSONA_OPTIONS },
-  { param: 'goal', column: 'ai_goal', options: AI_GOAL_OPTIONS },
   { param: 'source', column: 'source', options: SOURCE_OPTIONS },
   { param: 'status', column: 'status', options: STATUS_OPTIONS },
 ] as const
@@ -40,7 +38,7 @@ export async function GET(request: NextRequest) {
   let query = supabase
     .from('workshop_registrations')
     .select(
-      'id,name,email,persona,current_activity,industry,industry_other,business_description,ai_goal,ai_goal_other,source,utm_source,utm_medium,utm_campaign,utm_content,status,whatsapp_invite_clicked_at,created_at',
+      'id,name,email,persona,current_activity,industry,industry_other,business_description,source,utm_source,utm_medium,utm_campaign,utm_content,status,whatsapp_invite_clicked_at,created_at',
     )
     .eq('workshop_id', WORKSHOP_ID)
     .order('created_at', { ascending: false })
@@ -65,8 +63,6 @@ export async function GET(request: NextRequest) {
     'Industry',
     'Industry (other)',
     'Business description',
-    'AI goal',
-    'AI goal (other)',
     'Source',
     'UTM source',
     'UTM medium',
@@ -86,8 +82,6 @@ export async function GET(request: NextRequest) {
       labelFor(INDUSTRY_OPTIONS, row.industry),
       row.industry_other,
       row.business_description,
-      labelFor(AI_GOAL_OPTIONS, row.ai_goal),
-      row.ai_goal_other,
       labelFor(SOURCE_OPTIONS, row.source),
       row.utm_source,
       row.utm_medium,

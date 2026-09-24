@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { AiAutomationWorkshopContent } from '@/components/workshops/ai-automation-content'
 import { WORKSHOP_PATH } from '@/lib/workshops/ai-automation'
 
-const title = 'Free Workshop: AI Automation for Business — FORGE'
+const title = 'Free Workshop: AI Automation for Businesses — FORGE'
 const description =
-  'A free workshop for business owners: what you can automate with AI, where it fits in your business, how automation systems work, plus a live practical demo.'
+  'A free workshop for business owners: learn which parts of your business can be automated, where AI fits, and how these systems actually work.'
 
 export const metadata: Metadata = {
   title,

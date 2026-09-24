@@ -30,7 +30,6 @@ import {
 } from '@/lib/validations/ai-automation-registration'
 import {
   ACTIVITY_OPTIONS,
-  AI_GOAL_OPTIONS,
   BUSINESS_PERSONAS,
   INDUSTRY_OPTIONS,
   PERSONA_OPTIONS,
@@ -87,8 +86,6 @@ export function AiAutomationRegistrationForm() {
       industry: null,
       industryOther: '',
       businessDescription: '',
-      aiGoal: undefined,
-      aiGoalOther: '',
       source: null,
       utmSource: null,
       utmMedium: null,
@@ -108,7 +105,6 @@ export function AiAutomationRegistrationForm() {
 
   const persona = form.watch('persona')
   const industry = form.watch('industry')
-  const aiGoal = form.watch('aiGoal')
   const industryRequired = !!persona && BUSINESS_PERSONAS.includes(persona)
 
   async function onSubmit(values: AiAutomationRegistrationInput) {
@@ -299,41 +295,6 @@ export function AiAutomationRegistrationForm() {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={form.control}
-            name="aiGoal"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>What would you most like AI to help you with?</FormLabel>
-                <OptionSelect
-                  options={AI_GOAL_OPTIONS}
-                  value={field.value}
-                  onChange={(value) => {
-                    field.onChange(value)
-                    if (value !== 'other') form.setValue('aiGoalOther', '')
-                  }}
-                />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {aiGoal === 'other' && (
-            <FormField
-              control={form.control}
-              name="aiGoalOther"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>What would you like AI to help with?</FormLabel>
-                  <FormControl>
-                    <Input placeholder="In a few words" maxLength={200} {...field} value={field.value ?? ''} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
 
           {serverError && (
             <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">

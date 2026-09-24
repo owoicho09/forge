@@ -13,9 +13,7 @@ alter table workshop_registrations
   add column if not exists current_activity text,
   add column if not exists industry text,
   add column if not exists industry_other text,
-  add column if not exists business_description text,
-  add column if not exists ai_goal text,
-  add column if not exists ai_goal_other text;
+  add column if not exists business_description text;
 
 -- Normalized attribution bucket (raw campaign value stays in utm_source)
 -- and manually-updated CRM pipeline status.

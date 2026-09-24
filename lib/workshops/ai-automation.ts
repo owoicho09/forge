@@ -1,6 +1,6 @@
 export const WORKSHOP_ID = 'ai-automation'
 export const WORKSHOP_PATH = '/workshops/ai-automation'
-export const WORKSHOP_TITLE = 'AI Automation for Business: What You Can Automate & How It Works'
+export const WORKSHOP_TITLE = 'AI Automation for Businesses'
 
 // When the workshop runs, as shown on the page. The only place to change it.
 export const WORKSHOP_WHEN = 'this Saturday'
@@ -48,17 +48,6 @@ export const INDUSTRY_OPTIONS = [
   { value: 'construction', label: 'Construction' },
   { value: 'other', label: 'Other' },
   { value: 'not_applicable', label: 'Not applicable' },
-] as const
-
-export const AI_GOAL_OPTIONS = [
-  { value: 'more_leads', label: 'Get more customers/leads' },
-  { value: 'customer_support', label: 'Automate customer support' },
-  { value: 'repetitive_tasks', label: 'Automate repetitive business tasks' },
-  { value: 'sales_followup', label: 'Improve sales/follow-up' },
-  { value: 'marketing', label: 'Automate marketing' },
-  { value: 'build_product', label: 'Build a new product/tool' },
-  { value: 'not_sure', label: "I'm not sure yet" },
-  { value: 'other', label: 'Other' },
 ] as const
 
 // Personas for whom the industry question is required.

@@ -4,7 +4,6 @@ import { hasValidAdminSession } from '@/lib/admin-auth'
 import { getSupabaseAdminClient } from '@/lib/supabase/server'
 import {
   ACTIVITY_OPTIONS,
-  AI_GOAL_OPTIONS,
   INDUSTRY_OPTIONS,
   PERSONA_OPTIONS,
   SOURCE_OPTIONS,
@@ -37,8 +36,6 @@ type Registration = {
   industry: string | null
   industry_other: string | null
   business_description: string | null
-  ai_goal: string | null
-  ai_goal_other: string | null
   source: string
   utm_source: string | null
   status: string
@@ -49,7 +46,6 @@ type Registration = {
 // Filters available in the admin view: query param -> column + options.
 const FILTERS = [
   { param: 'persona', column: 'persona', label: 'Persona', options: PERSONA_OPTIONS },
-  { param: 'goal', column: 'ai_goal', label: 'AI goal', options: AI_GOAL_OPTIONS },
   { param: 'source', column: 'source', label: 'Source', options: SOURCE_OPTIONS },
   { param: 'status', column: 'status', label: 'Status', options: STATUS_OPTIONS },
 ] as const
@@ -120,7 +116,7 @@ export default async function AiAutomationAdminPage({
   let query = supabase
     .from('workshop_registrations')
     .select(
-      'id,name,email,persona,current_activity,industry,industry_other,business_description,ai_goal,ai_goal_other,source,utm_source,status,whatsapp_invite_clicked_at,created_at',
+      'id,name,email,persona,current_activity,industry,industry_other,business_description,source,utm_source,status,whatsapp_invite_clicked_at,created_at',
     )
     .eq('workshop_id', WORKSHOP_ID)
     .order('created_at', { ascending: false })
@@ -201,7 +197,6 @@ export default async function AiAutomationAdminPage({
                   <TableHead>Persona</TableHead>
                   <TableHead>Working on</TableHead>
                   <TableHead>Industry</TableHead>
-                  <TableHead>AI goal</TableHead>
                   <TableHead>Business</TableHead>
                   <TableHead>Source</TableHead>
                   <TableHead>Invite clicked</TableHead>
@@ -215,10 +210,6 @@ export default async function AiAutomationAdminPage({
                     reg.industry === 'other' && reg.industry_other
                       ? `Other: ${reg.industry_other}`
                       : labelFor(INDUSTRY_OPTIONS, reg.industry)
-                  const goal =
-                    reg.ai_goal === 'other' && reg.ai_goal_other
-                      ? `Other: ${reg.ai_goal_other}`
-                      : labelFor(AI_GOAL_OPTIONS, reg.ai_goal)
                   return (
                     <TableRow key={reg.id}>
                       <TableCell className="font-medium">{reg.name}</TableCell>
@@ -227,9 +218,6 @@ export default async function AiAutomationAdminPage({
                       <TableCell>{labelFor(ACTIVITY_OPTIONS, reg.current_activity) || '—'}</TableCell>
                       <TableCell className="max-w-[180px] truncate" title={industry}>
                         {industry || '—'}
-                      </TableCell>
-                      <TableCell className="max-w-[200px] truncate" title={goal}>
-                        {goal || '—'}
                       </TableCell>
                       <TableCell className="max-w-[220px] truncate" title={reg.business_description ?? ''}>
                         {reg.business_description || '—'}
@@ -270,7 +258,7 @@ export default async function AiAutomationAdminPage({
                 })}
                 {registrations.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={11} className="py-8 text-center text-slate-500">
+                    <TableCell colSpan={10} className="py-8 text-center text-slate-500">
                       No registrations yet.
                     </TableCell>
                   </TableRow>

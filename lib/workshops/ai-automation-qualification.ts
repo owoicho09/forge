@@ -262,9 +262,9 @@ const BRANCH_STEPS: Record<PrimaryPath, readonly Step[]> = {
 // Final steps (all paths)
 // ---------------------------------------------------------------------------
 export const NEXT_STEP_OPTIONS = [
-  { value: 'self_build_guidance', label: 'Build it myself with the right guidance' },
-  { value: 'build_with_expert', label: 'Build it with someone experienced' },
-  { value: 'implementation_help', label: 'Get help implementing it' },
+  { value: 'self_build_guidance', label: "Point me in the right direction — I'll build it myself" },
+  { value: 'build_with_expert', label: 'Work with me hands-on while I build it' },
+  { value: 'implementation_help', label: 'Have it built or implemented for me' },
   { value: 'exploring', label: "I'm still figuring out the right direction" },
 ] as const
 

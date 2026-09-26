@@ -59,6 +59,8 @@ export async function GET(request: NextRequest) {
   }
 
   const { searchParams } = new URL(request.url)
+  // Qualifications view: only people who completed the post-workshop survey.
+  const qualifiedOnly = searchParams.get('view') === 'qualifications'
   const activeQualification = readQualificationFilters((param) => searchParams.get(param))
 
   const supabase = getSupabaseAdminClient()
@@ -108,7 +110,10 @@ export async function GET(request: NextRequest) {
     ...ANSWER_COLUMNS.map((key) => ANSWER_HEADERS.get(key) ?? key),
   ]
   const rows = (data ?? [])
-    .filter((row) => matchesQualificationFilters(qualifications.latest.get(row.id), activeQualification))
+    .filter((row) => {
+      const q = qualifications.latest.get(row.id)
+      return (!qualifiedOnly || !!q) && matchesQualificationFilters(q, activeQualification)
+    })
     .map((row) => {
       const q = qualifications.latest.get(row.id)
       const fields = new Map<string, Field>(
@@ -151,7 +156,7 @@ export async function GET(request: NextRequest) {
   return new NextResponse(csv, {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
-      'Content-Disposition': `attachment; filename="ai-automation-registrations-${new Date().toISOString().slice(0, 10)}.csv"`,
+      'Content-Disposition': `attachment; filename="ai-automation-${qualifiedOnly ? 'qualifications' : 'registrations'}-${new Date().toISOString().slice(0, 10)}.csv"`,
     },
   })
 }

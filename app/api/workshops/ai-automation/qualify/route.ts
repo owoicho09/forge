@@ -214,7 +214,7 @@ export async function POST(request: NextRequest) {
       name: values.name,
       phone: values.phone,
       phone_normalized: phoneNormalized,
-      email: values.email,
+      email: values.email ?? null,
       match_type: matchType,
       source: attributedSource ?? lead.source,
       support_category: deriveSupportCategory(values),

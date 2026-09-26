@@ -28,6 +28,7 @@ import {
 import {
   QUALIFICATION_FILTERS,
   computeDiagnostics,
+  findPossibleMatches,
   loadLatestQualifications,
   matchesQualificationFilters,
   readQualificationFilters,
@@ -48,7 +49,8 @@ export const metadata: Metadata = {
 }
 
 const ADMIN_PATH = '/workshops/ai-automation/admin'
-const COLUMN_COUNT = 17
+
+type View = 'registrations' | 'qualifications'
 
 type Registration = {
   id: string
@@ -67,12 +69,13 @@ type Registration = {
   created_at: string
 }
 
-// Filters on the registration itself: query param -> column + options.
-const FILTERS = [
+// Registration filters: query param -> column + options. Source applies to both views.
+const REGISTRATION_FILTERS = [
   { param: 'persona', column: 'persona', label: 'Persona', options: PERSONA_OPTIONS },
   { param: 'source', column: 'source', label: 'Source', options: SOURCE_OPTIONS },
   { param: 'status', column: 'status', label: 'Status', options: STATUS_OPTIONS },
 ] as const
+const SOURCE_FILTER = REGISTRATION_FILTERS[1]
 
 function LoginForm({ error }: { error?: string }) {
   return (
@@ -114,6 +117,31 @@ function LoginForm({ error }: { error?: string }) {
   )
 }
 
+function ViewToggle({ view, counts }: { view: View; counts: Record<View, number> }) {
+  const views: { value: View; label: string; href: string }[] = [
+    { value: 'registrations', label: 'Registrations', href: ADMIN_PATH },
+    { value: 'qualifications', label: 'Post-workshop qualifications', href: `${ADMIN_PATH}?view=qualifications` },
+  ]
+  return (
+    <nav aria-label="Admin views" className="mt-6 inline-flex flex-wrap rounded-lg border border-slate-200 bg-white p-1">
+      {views.map((v) => (
+        <Link
+          key={v.value}
+          href={v.href}
+          aria-current={view === v.value ? 'page' : undefined}
+          className={
+            view === v.value
+              ? 'rounded-md bg-[#1a1714] px-3 py-1.5 text-sm font-semibold text-white'
+              : 'rounded-md px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-[#e85d26]'
+          }
+        >
+          {v.label} <span className="tabular-nums opacity-70">({counts[v.value]})</span>
+        </Link>
+      ))}
+    </nav>
+  )
+}
+
 function Diagnostics({ diagnostics }: { diagnostics: ReturnType<typeof computeDiagnostics> }) {
   const groups = [
     { title: 'Primary path', rows: diagnostics.byPath },
@@ -145,6 +173,81 @@ function Diagnostics({ diagnostics }: { diagnostics: ReturnType<typeof computeDi
   )
 }
 
+function FilterBar({
+  filters,
+  view,
+  filterQuery,
+}: {
+  filters: { param: string; label: string; options: readonly { value: string; label: string }[]; value?: string }[]
+  view: View
+  filterQuery: string
+}) {
+  return (
+    <form method="GET" className="mt-6 flex flex-wrap items-end gap-3">
+      {view === 'qualifications' && <input type="hidden" name="view" value="qualifications" />}
+      {filters.map((filter) => (
+        <div key={filter.param}>
+          <label htmlFor={`filter-${filter.param}`} className="block text-xs font-medium text-slate-500">
+            {filter.label}
+          </label>
+          <select
+            id={`filter-${filter.param}`}
+            name={filter.param}
+            defaultValue={filter.value ?? ''}
+            className="mt-1 h-9 rounded-md border border-slate-200 bg-white px-2 text-sm"
+          >
+            <option value="">All</option>
+            {filter.options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      ))}
+      <button
+        type="submit"
+        className="h-9 rounded-md border border-slate-200 bg-white px-3 text-sm font-medium text-[#1a1714] hover:bg-slate-100"
+      >
+        Filter
+      </button>
+      <a
+        href={`/api/workshops/ai-automation/admin/export?${filterQuery}`}
+        className="h-9 rounded-md bg-[#e85d26] px-3 py-2 text-sm font-semibold leading-5 text-white hover:opacity-90"
+      >
+        Export CSV
+      </a>
+    </form>
+  )
+}
+
+function LeadStatusForm({ reg, filterQuery }: { reg: Registration; filterQuery: string }) {
+  return (
+    <form method="POST" action="/api/workshops/ai-automation/admin/status" className="flex items-center gap-2">
+      <input type="hidden" name="id" value={reg.id} />
+      <input type="hidden" name="filters" value={filterQuery} />
+      <select
+        name="status"
+        defaultValue={reg.status}
+        aria-label={`Status for ${reg.name}`}
+        className="h-8 rounded-md border border-slate-200 bg-white px-2 text-xs"
+      >
+        {STATUS_OPTIONS.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <button
+        type="submit"
+        className="h-8 rounded-md border border-slate-200 px-2 text-xs font-medium text-[#1a1714] hover:bg-slate-100"
+      >
+        Save
+      </button>
+    </form>
+  )
+}
+
 function QualificationProfile({
   qualification,
   submissions,
@@ -155,17 +258,15 @@ function QualificationProfile({
   filterQuery: string
 }) {
   const answers = qualification as unknown as Answers
-  const path = qualification.primary_path as PrimaryPath
-  const contextKeys = PATH_SUMMARY[path]?.context ?? []
+  const contextKeys = PATH_SUMMARY[qualification.primary_path as PrimaryPath]?.context ?? []
   const fields = getAnswerFields(answers)
-  const contextFields = fields.filter((f) => contextKeys.includes(f.key) || f.key === 'final_context')
+  const contextFields = fields.filter((f) => contextKeys.includes(f.key))
   const answerFields = fields.filter((f) => !contextFields.includes(f))
 
   return (
-    <details className="group">
+    <details>
       <summary className="cursor-pointer text-xs font-medium text-slate-600 hover:text-[#e85d26]">
-        Qualification profile · submitted {new Date(qualification.submitted_at).toLocaleString()} ·{' '}
-        {labelFor(MATCH_TYPE_OPTIONS, qualification.match_type)}
+        Qualification profile
         {submissions > 1 && ` · ${submissions} submissions (showing latest)`}
       </summary>
 
@@ -183,12 +284,11 @@ function QualificationProfile({
             <p className="text-sm text-slate-500">No written context given.</p>
           )}
 
-          <div className="text-xs text-slate-500">
-            Submitted as {qualification.name} · {qualification.phone}
-            {qualification.email && ` · ${qualification.email}`}
-          </div>
-
-          <form method="POST" action="/api/workshops/ai-automation/admin/qualification-status" className="flex items-center gap-2">
+          <form
+            method="POST"
+            action="/api/workshops/ai-automation/admin/qualification-status"
+            className="flex items-center gap-2"
+          >
             <input type="hidden" name="id" value={qualification.id} />
             <input type="hidden" name="filters" value={filterQuery} />
             <label htmlFor={`q-status-${qualification.id}`} className="text-xs font-medium text-slate-500">
@@ -230,6 +330,165 @@ function QualificationProfile({
   )
 }
 
+function RegistrationsTable({ registrations, filterQuery }: { registrations: Registration[]; filterQuery: string }) {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Phone</TableHead>
+          <TableHead>Persona</TableHead>
+          <TableHead>Working on</TableHead>
+          <TableHead>Industry</TableHead>
+          <TableHead>Business</TableHead>
+          <TableHead>Source</TableHead>
+          <TableHead>Invite clicked</TableHead>
+          <TableHead>Registered</TableHead>
+          <TableHead>Status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {registrations.map((reg) => {
+          const industry =
+            reg.industry === 'other' && reg.industry_other
+              ? `Other: ${reg.industry_other}`
+              : labelFor(INDUSTRY_OPTIONS, reg.industry)
+          return (
+            <TableRow key={reg.id}>
+              <TableCell className="font-medium">{reg.name}</TableCell>
+              <TableCell>{reg.email || '—'}</TableCell>
+              <TableCell>{reg.phone || '—'}</TableCell>
+              <TableCell>{labelFor(PERSONA_OPTIONS, reg.persona) || '—'}</TableCell>
+              <TableCell>{labelFor(ACTIVITY_OPTIONS, reg.current_activity) || '—'}</TableCell>
+              <TableCell className="max-w-[180px] truncate" title={industry}>
+                {industry || '—'}
+              </TableCell>
+              <TableCell className="max-w-[220px] truncate" title={reg.business_description ?? ''}>
+                {reg.business_description || '—'}
+              </TableCell>
+              <TableCell title={reg.utm_source ?? ''}>{labelFor(SOURCE_OPTIONS, reg.source)}</TableCell>
+              <TableCell>{reg.whatsapp_invite_clicked_at ? 'Yes' : 'No'}</TableCell>
+              <TableCell>{new Date(reg.created_at).toLocaleString()}</TableCell>
+              <TableCell>
+                <LeadStatusForm reg={reg} filterQuery={filterQuery} />
+              </TableCell>
+            </TableRow>
+          )
+        })}
+        {registrations.length === 0 && (
+          <TableRow>
+            <TableCell colSpan={11} className="py-8 text-center text-slate-500">
+              No registrations match.
+            </TableCell>
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
+  )
+}
+
+const QUALIFICATION_COLUMNS = 13
+
+function QualificationsTable({
+  rows,
+  allRegistrations,
+  submissions,
+  filterQuery,
+}: {
+  rows: { reg: Registration; q: Qualification }[]
+  allRegistrations: Registration[]
+  submissions: Map<string, number>
+  filterQuery: string
+}) {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Submitted</TableHead>
+          <TableHead>Name</TableHead>
+          <TableHead>WhatsApp</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Lead match</TableHead>
+          <TableHead>Possible match</TableHead>
+          <TableHead>Path</TableHead>
+          <TableHead>Stage</TableHead>
+          <TableHead>Need / blocker</TableHead>
+          <TableHead>Support</TableHead>
+          <TableHead>Follow-up</TableHead>
+          <TableHead>Qualification</TableHead>
+          <TableHead>Lead status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {rows.map(({ reg, q }) => {
+          const answers = q as unknown as Answers
+          const summary = PATH_SUMMARY[q.primary_path as PrimaryPath]
+          const stage = summary ? columnLabel(answers, summary.stage) : ''
+          const need = summary ? columnLabel(answers, summary.need) : ''
+          const possible = findPossibleMatches(reg, q, allRegistrations)
+          return (
+            <Fragment key={reg.id}>
+              <TableRow className="border-b-0">
+                <TableCell>{new Date(q.submitted_at).toLocaleString()}</TableCell>
+                <TableCell className="font-medium">{q.name}</TableCell>
+                <TableCell>{q.phone}</TableCell>
+                <TableCell>{q.email || reg.email || '—'}</TableCell>
+                <TableCell>{labelFor(MATCH_TYPE_OPTIONS, q.match_type)}</TableCell>
+                <TableCell className="whitespace-normal">
+                  {possible.length === 0 ? (
+                    '—'
+                  ) : (
+                    <ul className="min-w-[200px] space-y-0.5 text-xs text-amber-800">
+                      {possible.map((p) => (
+                        <li key={p.id}>
+                          {p.name}
+                          {p.email && ` · ${p.email}`} · registered {new Date(p.created_at).toLocaleDateString()}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </TableCell>
+                <TableCell>{PRIMARY_PATH_SHORT_LABELS[q.primary_path as PrimaryPath] ?? q.primary_path}</TableCell>
+                <TableCell className="max-w-[200px] truncate" title={stage}>
+                  {stage || '—'}
+                </TableCell>
+                <TableCell className="max-w-[200px] truncate" title={need}>
+                  {need || '—'}
+                </TableCell>
+                <TableCell>{labelFor(SUPPORT_CATEGORY_OPTIONS, q.support_category)}</TableCell>
+                <TableCell title={labelFor(FOLLOW_UP_OPTIONS, q.follow_up_intent)}>
+                  {q.wants_follow_up ? <span className="font-semibold text-[#e85d26]">Yes</span> : 'Not yet'}
+                </TableCell>
+                <TableCell>{labelFor(QUALIFICATION_STATUS_OPTIONS, q.status)}</TableCell>
+                <TableCell>
+                  <LeadStatusForm reg={reg} filterQuery={filterQuery} />
+                </TableCell>
+              </TableRow>
+              <TableRow className="hover:bg-transparent">
+                <TableCell colSpan={QUALIFICATION_COLUMNS} className="whitespace-normal pt-0">
+                  <QualificationProfile
+                    qualification={q}
+                    submissions={submissions.get(reg.id) ?? 1}
+                    filterQuery={filterQuery}
+                  />
+                </TableCell>
+              </TableRow>
+            </Fragment>
+          )
+        })}
+        {rows.length === 0 && (
+          <TableRow>
+            <TableCell colSpan={QUALIFICATION_COLUMNS} className="py-8 text-center text-slate-500">
+              No qualifications match.
+            </TableCell>
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
+  )
+}
+
 export default async function AiAutomationAdminPage({
   searchParams,
 }: {
@@ -243,57 +502,72 @@ export default async function AiAutomationAdminPage({
     return <LoginForm error={error} />
   }
 
+  const view: View = params.view === 'qualifications' ? 'qualifications' : 'registrations'
+
   // Only accept filter values from the known option lists.
+  const registrationFilters = view === 'registrations' ? REGISTRATION_FILTERS : [SOURCE_FILTER]
   const active: Record<string, string> = {}
-  for (const filter of FILTERS) {
+  for (const filter of registrationFilters) {
     const value = params[filter.param]
     if (typeof value === 'string' && filter.options.some((o) => o.value === value)) {
       active[filter.param] = value
     }
   }
-  const activeQualification = readQualificationFilters((param) => params[param])
+  const activeQualification = view === 'qualifications' ? readQualificationFilters((param) => params[param]) : {}
 
   const supabase = getSupabaseAdminClient()
-  let query = supabase
-    .from('workshop_registrations')
-    .select(
-      'id,name,email,phone,persona,current_activity,industry,industry_other,business_description,source,utm_source,status,whatsapp_invite_clicked_at,created_at',
-    )
-    .eq('workshop_id', WORKSHOP_ID)
-    .order('created_at', { ascending: false })
-
-  for (const filter of FILTERS) {
-    if (active[filter.param]) query = query.eq(filter.column, active[filter.param])
-  }
-
   const [{ data, error: queryError }, qualifications] = await Promise.all([
-    query,
+    supabase
+      .from('workshop_registrations')
+      .select(
+        'id,name,email,phone,persona,current_activity,industry,industry_other,business_description,source,utm_source,status,whatsapp_invite_clicked_at,created_at',
+      )
+      .eq('workshop_id', WORKSHOP_ID)
+      .order('created_at', { ascending: false }),
     loadLatestQualifications(supabase),
   ])
-  const registrations = ((data ?? []) as Registration[]).filter((reg) =>
-    matchesQualificationFilters(qualifications.latest.get(reg.id), activeQualification),
-  )
-  const diagnostics = computeDiagnostics(qualifications.latest.values())
-  const filterQuery = new URLSearchParams({ ...active, ...activeQualification }).toString()
+  const allRegistrations = (data ?? []) as Registration[]
   const loadError = queryError ?? qualifications.error
 
-  const selectFilters = [
-    ...FILTERS.map((f) => ({ param: f.param, label: f.label, options: f.options, value: active[f.param] })),
-    ...QUALIFICATION_FILTERS.map((f) => ({
-      param: f.param,
-      label: f.label,
-      options: f.options,
-      value: activeQualification[f.param],
-    })),
+  const registrations = allRegistrations.filter((reg) =>
+    registrationFilters.every((f) => !active[f.param] || reg[f.column] === active[f.param]),
+  )
+  const qualificationRows = registrations
+    .flatMap((reg) => {
+      const q = qualifications.latest.get(reg.id)
+      return q && matchesQualificationFilters(q, activeQualification) ? [{ reg, q }] : []
+    })
+    .sort((a, b) => b.q.submitted_at.localeCompare(a.q.submitted_at))
+
+  const filterQuery = new URLSearchParams({
+    ...(view === 'qualifications' ? { view } : {}),
+    ...active,
+    ...activeQualification,
+  }).toString()
+
+  const filters = [
+    ...registrationFilters.map((f) => ({ param: f.param, label: f.label, options: f.options, value: active[f.param] })),
+    ...(view === 'qualifications'
+      ? QUALIFICATION_FILTERS.map((f) => ({
+          param: f.param,
+          label: f.label,
+          options: f.options,
+          value: activeQualification[f.param],
+        }))
+      : []),
   ]
+
+  const shown = view === 'registrations' ? registrations.length : qualificationRows.length
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="font-syne text-xl font-bold text-[#1a1714]">AI Automation Workshop Registrations</h1>
-            <p className="text-sm text-slate-600">{registrations.length} lead(s)</p>
+            <h1 className="font-syne text-xl font-bold text-[#1a1714]">AI Automation Workshop</h1>
+            <p className="text-sm text-slate-600">
+              {shown} {view === 'registrations' ? 'registration(s)' : 'qualified lead(s)'} shown
+            </p>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/workshops/telegrambot/admin" className="text-sm font-medium text-slate-500 hover:text-[#e85d26]">
@@ -308,169 +582,27 @@ export default async function AiAutomationAdminPage({
           </div>
         </div>
 
-        <Diagnostics diagnostics={diagnostics} />
+        <ViewToggle
+          view={view}
+          counts={{ registrations: allRegistrations.length, qualifications: qualifications.latest.size }}
+        />
 
-        <form method="GET" className="mt-6 flex flex-wrap items-end gap-3">
-          {selectFilters.map((filter) => (
-            <div key={filter.param}>
-              <label htmlFor={`filter-${filter.param}`} className="block text-xs font-medium text-slate-500">
-                {filter.label}
-              </label>
-              <select
-                id={`filter-${filter.param}`}
-                name={filter.param}
-                defaultValue={filter.value ?? ''}
-                className="mt-1 h-9 rounded-md border border-slate-200 bg-white px-2 text-sm"
-              >
-                <option value="">All</option>
-                {filter.options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          ))}
-          <button
-            type="submit"
-            className="h-9 rounded-md border border-slate-200 bg-white px-3 text-sm font-medium text-[#1a1714] hover:bg-slate-100"
-          >
-            Filter
-          </button>
-          <a
-            href={`/api/workshops/ai-automation/admin/export?${filterQuery}`}
-            className="h-9 rounded-md bg-[#e85d26] px-3 py-2 text-sm font-semibold leading-5 text-white hover:opacity-90"
-          >
-            Export CSV
-          </a>
-        </form>
+        {view === 'qualifications' && <Diagnostics diagnostics={computeDiagnostics(qualifications.latest.values())} />}
+
+        <FilterBar filters={filters} view={view} filterQuery={filterQuery} />
 
         <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200 bg-white">
           {loadError ? (
-            <p className="p-6 text-sm text-red-700">Failed to load registrations: {loadError.message}</p>
+            <p className="p-6 text-sm text-red-700">Failed to load data: {loadError.message}</p>
+          ) : view === 'registrations' ? (
+            <RegistrationsTable registrations={registrations} filterQuery={filterQuery} />
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead>Persona</TableHead>
-                  <TableHead>Working on</TableHead>
-                  <TableHead>Industry</TableHead>
-                  <TableHead>Business</TableHead>
-                  <TableHead>Source</TableHead>
-                  <TableHead>Invite clicked</TableHead>
-                  <TableHead>Registered</TableHead>
-                  <TableHead>Path</TableHead>
-                  <TableHead>Stage</TableHead>
-                  <TableHead>Need / blocker</TableHead>
-                  <TableHead>Support</TableHead>
-                  <TableHead>Follow-up</TableHead>
-                  <TableHead>Qualification</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {registrations.map((reg) => {
-                  const industry =
-                    reg.industry === 'other' && reg.industry_other
-                      ? `Other: ${reg.industry_other}`
-                      : labelFor(INDUSTRY_OPTIONS, reg.industry)
-                  const q = qualifications.latest.get(reg.id)
-                  const qAnswers = q as unknown as Answers | undefined
-                  const summary = q ? PATH_SUMMARY[q.primary_path as PrimaryPath] : undefined
-                  const stage = qAnswers && summary ? columnLabel(qAnswers, summary.stage) : ''
-                  const need = qAnswers && summary ? columnLabel(qAnswers, summary.need) : ''
-                  return (
-                    <Fragment key={reg.id}>
-                      <TableRow className={q ? 'border-b-0' : undefined}>
-                        <TableCell className="font-medium">{reg.name}</TableCell>
-                        <TableCell>{reg.email || '—'}</TableCell>
-                        <TableCell>{reg.phone || '—'}</TableCell>
-                        <TableCell>{labelFor(PERSONA_OPTIONS, reg.persona) || '—'}</TableCell>
-                        <TableCell>{labelFor(ACTIVITY_OPTIONS, reg.current_activity) || '—'}</TableCell>
-                        <TableCell className="max-w-[180px] truncate" title={industry}>
-                          {industry || '—'}
-                        </TableCell>
-                        <TableCell className="max-w-[220px] truncate" title={reg.business_description ?? ''}>
-                          {reg.business_description || '—'}
-                        </TableCell>
-                        <TableCell title={reg.utm_source ?? ''}>{labelFor(SOURCE_OPTIONS, reg.source)}</TableCell>
-                        <TableCell>{reg.whatsapp_invite_clicked_at ? 'Yes' : 'No'}</TableCell>
-                        <TableCell>{new Date(reg.created_at).toLocaleString()}</TableCell>
-                        <TableCell>{q ? PRIMARY_PATH_SHORT_LABELS[q.primary_path as PrimaryPath] : '—'}</TableCell>
-                        <TableCell className="max-w-[200px] truncate" title={stage}>
-                          {stage || '—'}
-                        </TableCell>
-                        <TableCell className="max-w-[200px] truncate" title={need}>
-                          {need || '—'}
-                        </TableCell>
-                        <TableCell>{q ? labelFor(SUPPORT_CATEGORY_OPTIONS, q.support_category) : '—'}</TableCell>
-                        <TableCell title={q ? labelFor(FOLLOW_UP_OPTIONS, q.follow_up_intent) : ''}>
-                          {q ? (
-                            q.wants_follow_up ? (
-                              <span className="font-semibold text-[#e85d26]">Yes</span>
-                            ) : (
-                              'Not yet'
-                            )
-                          ) : (
-                            '—'
-                          )}
-                        </TableCell>
-                        <TableCell>{q ? labelFor(QUALIFICATION_STATUS_OPTIONS, q.status) : '—'}</TableCell>
-                        <TableCell>
-                          <form
-                            method="POST"
-                            action="/api/workshops/ai-automation/admin/status"
-                            className="flex items-center gap-2"
-                          >
-                            <input type="hidden" name="id" value={reg.id} />
-                            <input type="hidden" name="filters" value={filterQuery} />
-                            <select
-                              name="status"
-                              defaultValue={reg.status}
-                              aria-label={`Status for ${reg.name}`}
-                              className="h-8 rounded-md border border-slate-200 bg-white px-2 text-xs"
-                            >
-                              {STATUS_OPTIONS.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                  {option.label}
-                                </option>
-                              ))}
-                            </select>
-                            <button
-                              type="submit"
-                              className="h-8 rounded-md border border-slate-200 px-2 text-xs font-medium text-[#1a1714] hover:bg-slate-100"
-                            >
-                              Save
-                            </button>
-                          </form>
-                        </TableCell>
-                      </TableRow>
-                      {q && (
-                        <TableRow className="hover:bg-transparent">
-                          <TableCell colSpan={COLUMN_COUNT} className="whitespace-normal pt-0">
-                            <QualificationProfile
-                              qualification={q}
-                              submissions={qualifications.submissions.get(reg.id) ?? 1}
-                              filterQuery={filterQuery}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </Fragment>
-                  )
-                })}
-                {registrations.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={COLUMN_COUNT} className="py-8 text-center text-slate-500">
-                      No registrations match.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+            <QualificationsTable
+              rows={qualificationRows}
+              allRegistrations={allRegistrations}
+              submissions={qualifications.submissions}
+              filterQuery={filterQuery}
+            />
           )}
         </div>
       </div>

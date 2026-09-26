@@ -8,15 +8,15 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import {
-  CONTACT_FIELD_KEYS,
   getVisibleSteps,
+  hasChosenPath,
   validateStep,
   withAnswer,
   type Answers,
   type Field,
 } from '@/lib/workshops/ai-automation-qualification'
 
-// Survey progress survives a refresh. Contact details aren't saved.
+// Survey progress survives a refresh (answers stay on this device only).
 const DRAFT_KEY = 'fb-ai-automation-next-step-draft'
 
 function loadDraft(): { answers: Answers; stepIndex: number } | null {
@@ -37,9 +37,7 @@ function loadDraft(): { answers: Answers; stepIndex: number } | null {
 
 function saveDraft(answers: Answers, stepIndex: number) {
   try {
-    const saved = { ...answers }
-    for (const key of CONTACT_FIELD_KEYS) delete saved[key]
-    localStorage.setItem(DRAFT_KEY, JSON.stringify({ answers: saved, stepIndex }))
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ answers, stepIndex }))
   } catch {}
 }
 
@@ -131,7 +129,7 @@ export function AiAutomationQualificationSurvey() {
   const steps = getVisibleSteps(answers)
   const index = Math.min(stepIndex, steps.length - 1)
   const step = steps[index]
-  const pathChosen = steps.length > 1
+  const pathChosen = hasChosenPath(answers)
   const isLast = pathChosen && index === steps.length - 1
   const errors = validateStep(step, answers)
   const missingRequired = step.fields.some((f) => !f.optional && !answers[f.key]?.trim())
@@ -221,12 +219,12 @@ export function AiAutomationQualificationSurvey() {
     <form onSubmit={handleNext} noValidate aria-busy={submitting} className="flex flex-1 flex-col">
       <div className="flex-1 sm:flex-none">
         <p className="text-xs font-semibold uppercase tracking-wider text-[#e85d26]">
-          {pathChosen ? `Step ${index + 1} of ${steps.length}` : 'Step 1'}
+          {pathChosen ? `Step ${index + 1} of ${steps.length}` : `Step ${index + 1}`}
         </p>
         <div className="mt-2 h-1 overflow-hidden rounded-full bg-slate-100" aria-hidden="true">
           <div
             className="h-full rounded-full bg-[#e85d26]"
-            style={{ width: `${pathChosen ? ((index + 1) / steps.length) * 100 : 8}%` }}
+            style={{ width: `${pathChosen ? ((index + 1) / steps.length) * 100 : (index + 1) * 8}%` }}
           />
         </div>
 

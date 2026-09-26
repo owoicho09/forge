@@ -110,12 +110,10 @@ const BRANCH_STEPS: Record<PrimaryPath, readonly Step[]> = {
     single({
       kind: 'textarea',
       key: 'contextual_notes',
-      label: 'Is there something specific you would like to learn or build? Tell us a little about it.',
+      label: "Is there something specific you'd like to learn or build?",
       crmLabel: 'What they want to build',
       optional: true,
       maxLength: CONTEXT_MAX,
-      placeholder:
-        'For example: an AI customer support assistant, Telegram bot, lead qualification system, internal business tool, SaaS product, etc.',
     }),
   ],
 
@@ -126,7 +124,6 @@ const BRANCH_STEPS: Record<PrimaryPath, readonly Step[]> = {
       label: 'What are you currently building?',
       crmLabel: 'Currently building',
       maxLength: 300,
-      placeholder: "Tell us briefly what you're building.",
     }),
     single(
       choice('project_stage', 'Where are you currently with it?', 'Project stage', [
@@ -156,11 +153,11 @@ const BRANCH_STEPS: Record<PrimaryPath, readonly Step[]> = {
     single({
       kind: 'textarea',
       key: 'project_context',
-      label: 'What would you like us to know about the project before we reach out?',
+      label: 'What would you like us to know about the project?',
       crmLabel: 'Project context',
       optional: true,
       maxLength: CONTEXT_MAX,
-      placeholder: "What's the project supposed to do, who is it for, or where are you currently stuck?",
+      placeholder: 'What is it supposed to do, who is it for, or where are you currently stuck?',
     }),
   ],
 
@@ -171,7 +168,6 @@ const BRANCH_STEPS: Record<PrimaryPath, readonly Step[]> = {
       label: 'What are you thinking of building?',
       crmLabel: 'Idea',
       maxLength: 300,
-      placeholder: 'Tell us briefly about the idea.',
     }),
     single(
       choice('idea_type', 'What is the idea mainly for?', 'Idea is for', [
@@ -241,6 +237,14 @@ const BRANCH_STEPS: Record<PrimaryPath, readonly Step[]> = {
         { value: 'implement', label: 'Help me implement it' },
       ]),
     ),
+    single(
+      choice('business_relationship', 'What type of business is this?', 'Business relationship', [
+        { value: 'own_business', label: 'My own business' },
+        { value: 'employer', label: 'A business I work for' },
+        { value: 'client', label: 'A client/business I want to help' },
+        { value: 'exploring', label: "I'm exploring an idea" },
+      ]),
+    ),
     single({
       kind: 'textarea',
       key: 'business_automation_context',
@@ -249,38 +253,9 @@ const BRANCH_STEPS: Record<PrimaryPath, readonly Step[]> = {
       optional: true,
       maxLength: CONTEXT_MAX,
       placeholder:
-        "For example: what the business does, what process is currently manual, what happens today, or what you'd like the automation to handle.",
+        'What does the business do? What process is currently manual? What happens today? What would you like the automation to handle?',
     }),
-    {
-      id: 'business_relationship',
-      title: 'What type of business is this?',
-      fields: [
-        choice('business_relationship', 'What type of business is this?', 'Business relationship', [
-          { value: 'own_business', label: 'My own business' },
-          { value: 'employer', label: 'A business I work for' },
-          { value: 'client', label: 'A client/business I want to help' },
-          { value: 'exploring', label: "I'm exploring an idea" },
-        ]),
-        {
-          kind: 'text',
-          key: 'business_name',
-          label: 'Business name',
-          crmLabel: 'Business name',
-          optional: true,
-          maxLength: 160,
-          autoComplete: 'organization',
-        },
-      ],
-    },
   ],
-}
-
-/** The optional free-text context field for each path. */
-const BRANCH_CONTEXT_KEY: Record<PrimaryPath, string> = {
-  learn_to_build: 'contextual_notes',
-  existing_project: 'project_context',
-  idea_to_project: 'idea_context',
-  business_automation: 'business_automation_context',
 }
 
 // ---------------------------------------------------------------------------
@@ -307,27 +282,18 @@ const FOLLOW_UP_STEP = single(
   choice('follow_up_intent', 'Would you like us to follow up with you about your answer?', 'Follow-up', FOLLOW_UP_OPTIONS),
 )
 
-const FINAL_CONTEXT_STEP = single({
-  kind: 'textarea',
-  key: 'final_context',
-  label: "Anything else you'd like us to know?",
-  crmLabel: 'Anything else',
-  optional: true,
-  maxLength: CONTEXT_MAX,
-})
-
 export const CONTACT_FIELD_KEYS = ['name', 'phone', 'email'] as const
 
 const CONTACT_STEP: Step = {
   id: 'contact',
-  title: 'Where can we reach you?',
+  title: 'First, your details',
   fields: [
     { kind: 'text', key: 'name', label: 'Name', crmLabel: 'Name', maxLength: 120, autoComplete: 'name', placeholder: 'Your full name' },
     {
       kind: 'tel',
       key: 'phone',
-      label: 'Phone / WhatsApp number',
-      crmLabel: 'Phone',
+      label: 'WhatsApp number',
+      crmLabel: 'WhatsApp',
       maxLength: 30,
       autoComplete: 'tel',
       placeholder: 'e.g. 0803 123 4567',
@@ -335,12 +301,12 @@ const CONTACT_STEP: Step = {
     {
       kind: 'email',
       key: 'email',
-      label: 'Email you registered with',
+      label: 'Email',
       crmLabel: 'Email',
       optional: true,
       maxLength: 254,
       autoComplete: 'email',
-      placeholder: 'So we can link this to your registration',
+      placeholder: 'The email you registered with',
     },
   ],
 }
@@ -352,28 +318,23 @@ function isPrimaryPath(value: string | undefined): value is PrimaryPath {
   return PRIMARY_PATH_OPTIONS.some((o) => o.value === value)
 }
 
+export function hasChosenPath(answers: Answers): boolean {
+  return isPrimaryPath(answers.primary_path)
+}
+
 /** Every field key that belongs to a path branch (used to clear stale answers). */
 export const BRANCH_FIELD_KEYS: readonly string[] = Array.from(
   new Set(Object.values(BRANCH_STEPS).flatMap((steps) => steps.flatMap((s) => s.fields.map((f) => f.key)))),
 )
 
 /**
- * The steps this person sees, given their answers so far. Returns only the
- * first step until a path is chosen, so the step total is always the real one.
- * "Anything else?" is skipped when they already filled in their path's context.
+ * The steps this person sees, in order. Until a path is chosen only the
+ * contact and direction steps are known, so the total is never a guess.
  */
 export function getVisibleSteps(answers: Answers): Step[] {
   const path = answers.primary_path
-  if (!isPrimaryPath(path)) return [PRIMARY_STEP]
-  const hasContext = !!answers[BRANCH_CONTEXT_KEY[path]]?.trim()
-  return [
-    PRIMARY_STEP,
-    ...BRANCH_STEPS[path],
-    NEXT_STEP_STEP,
-    FOLLOW_UP_STEP,
-    ...(hasContext ? [] : [FINAL_CONTEXT_STEP]),
-    CONTACT_STEP,
-  ]
+  if (!isPrimaryPath(path)) return [CONTACT_STEP, PRIMARY_STEP]
+  return [CONTACT_STEP, PRIMARY_STEP, ...BRANCH_STEPS[path], NEXT_STEP_STEP, FOLLOW_UP_STEP]
 }
 
 /** Answers with any fields from other branches removed (after changing path). */
@@ -433,7 +394,7 @@ export function validateQualification(
   const steps = getVisibleSteps(answers)
   const errors: Record<string, string> = {}
   const values: Record<string, string | null> = {}
-  if (steps.length === 1) errors.primary_path = 'Choose an option.'
+  if (!isPrimaryPath(answers.primary_path)) errors.primary_path = 'Choose an option.'
   for (const step of steps) {
     for (const field of step.fields) {
       const error = validateField(field, answers[field.key])
@@ -498,7 +459,7 @@ export const PATH_SUMMARY: Record<PrimaryPath, { stage: string; need: string | n
   business_automation: {
     stage: 'current_automation_state',
     need: 'automation_area',
-    context: ['business_automation_context', 'business_name'],
+    context: ['business_automation_context'],
   },
 }
 
@@ -508,7 +469,6 @@ export const ANSWER_COLUMNS: readonly string[] = [
   ...BRANCH_FIELD_KEYS,
   'preferred_next_step',
   'follow_up_intent',
-  'final_context',
 ]
 
 /** The fields for a stored submission, in survey order (for the CRM profile). */

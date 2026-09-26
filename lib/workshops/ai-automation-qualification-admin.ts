@@ -1,0 +1,118 @@
+import type { SupabaseClient } from '@supabase/supabase-js'
+import { WORKSHOP_ID } from '@/lib/workshops/ai-automation'
+import {
+  ANSWER_COLUMNS,
+  PRIMARY_PATH_OPTIONS,
+  PRIMARY_PATH_SHORT_LABELS,
+  QUALIFICATION_STATUS_OPTIONS,
+  SUPPORT_CATEGORY_OPTIONS,
+} from '@/lib/workshops/ai-automation-qualification'
+
+// Server-side helpers for the AI Automation admin view and CSV export.
+
+export type Qualification = {
+  id: string
+  registration_id: string
+  name: string
+  phone: string
+  email: string | null
+  match_type: string
+  source: string
+  support_category: string
+  wants_follow_up: boolean
+  status: string
+  submitted_at: string
+} & Record<string, string | null>
+
+const QUALIFICATION_COLUMNS = [
+  'id',
+  'registration_id',
+  'name',
+  'phone',
+  'email',
+  'match_type',
+  'source',
+  'support_category',
+  'wants_follow_up',
+  'status',
+  'submitted_at',
+  ...ANSWER_COLUMNS,
+].join(',')
+
+/** Each lead's latest qualification, plus how many times they've submitted. */
+export async function loadLatestQualifications(supabase: SupabaseClient) {
+  const { data, error } = await supabase
+    .from('workshop_qualifications')
+    .select(QUALIFICATION_COLUMNS)
+    .eq('workshop_id', WORKSHOP_ID)
+    .order('submitted_at', { ascending: false })
+
+  const latest = new Map<string, Qualification>()
+  const submissions = new Map<string, number>()
+  for (const row of (data ?? []) as unknown as Qualification[]) {
+    if (!latest.has(row.registration_id)) latest.set(row.registration_id, row)
+    submissions.set(row.registration_id, (submissions.get(row.registration_id) ?? 0) + 1)
+  }
+  return { latest, submissions, error }
+}
+
+// Filters on the latest qualification: query param -> options.
+export const QUALIFICATION_FILTERS = [
+  {
+    param: 'path',
+    label: 'Primary path',
+    options: PRIMARY_PATH_OPTIONS.map((o) => ({ value: o.value, label: PRIMARY_PATH_SHORT_LABELS[o.value] })),
+  },
+  {
+    param: 'follow_up',
+    label: 'Follow-up',
+    options: [
+      { value: 'yes', label: 'Wants follow-up' },
+      { value: 'no', label: 'Not yet' },
+    ],
+  },
+  { param: 'support', label: 'Support / next step', options: SUPPORT_CATEGORY_OPTIONS },
+  {
+    param: 'qualification',
+    label: 'Qualification',
+    options: [...QUALIFICATION_STATUS_OPTIONS, { value: 'none', label: 'Not qualified yet' }],
+  },
+] as const
+
+export function readQualificationFilters(get: (param: string) => unknown): Record<string, string> {
+  const active: Record<string, string> = {}
+  for (const filter of QUALIFICATION_FILTERS) {
+    const value = get(filter.param)
+    if (typeof value === 'string' && filter.options.some((o) => o.value === value)) active[filter.param] = value
+  }
+  return active
+}
+
+export function matchesQualificationFilters(q: Qualification | undefined, active: Record<string, string>): boolean {
+  if (active.qualification === 'none') return !q
+  if (active.qualification && q?.status !== active.qualification) return false
+  if (active.path && q?.primary_path !== active.path) return false
+  if (active.support && q?.support_category !== active.support) return false
+  if (active.follow_up && (!q || q.wants_follow_up !== (active.follow_up === 'yes'))) return false
+  return true
+}
+
+/** Cohort-wide counts: what do these people actually need? */
+export function computeDiagnostics(latest: Iterable<Qualification>) {
+  const byPath = new Map<string, number>()
+  const bySupport = new Map<string, number>()
+  let total = 0
+  let followUp = 0
+  for (const q of latest) {
+    total++
+    if (q.wants_follow_up) followUp++
+    byPath.set(q.primary_path ?? '', (byPath.get(q.primary_path ?? '') ?? 0) + 1)
+    bySupport.set(q.support_category, (bySupport.get(q.support_category) ?? 0) + 1)
+  }
+  return {
+    total,
+    followUp,
+    byPath: PRIMARY_PATH_OPTIONS.map((o) => ({ label: PRIMARY_PATH_SHORT_LABELS[o.value], count: byPath.get(o.value) ?? 0 })),
+    bySupport: SUPPORT_CATEGORY_OPTIONS.map((o) => ({ label: o.label, count: bySupport.get(o.value) ?? 0 })),
+  }
+}
